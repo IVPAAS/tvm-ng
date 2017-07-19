@@ -7,12 +7,12 @@
 			<p-column [style]="{'width':'44px', 'padding-left': '14px'}" selectionMode="multiple"></p-column>
 			<p-column field="thumbnailUrl" header="" [style]="{'width':'100px'}">
 				<ng-template let-col let-asset="rowData" pTemplate="body">
-					<div class="kThumbnailHolder" [class.disable]="!allowDrilldown(asset.mediaType,asset.status)" (click)="onActionSelected('view',asset.id,asset.mediaType,asset.status)"><img src="{{getImage(asset)}}" onError="this.onerror=null;this.style.display='none'"></div>
+					<div class="kThumbnailHolder" [class.disable]="!allowDrilldown(asset.mediaType,asset.status)"><img *ngIf="asset.images && asset.images.length" src="{{getImage(asset)}}" onError="this.onerror=null;this.style.display='none'"></div>
 				</ng-template>
 			</p-column>
 			<p-column field="name" header="Name" [sortable]="false">
 				<ng-template let-col let-asset="rowData" pTemplate="body">
-					<span class="kTitle" [class.disable]="!allowDrilldown(asset.mediaType,asset.status)" (click)="onActionSelected('view',asset.id,asset.mediaType,asset.status)">{{asset[col.field]}}</span>
+					<span class="kTitle" [class.disable]="!allowDrilldown(asset.mediaType,asset.status)">{{asset[col.field]}}</span>
 				</ng-template>
 			</p-column>
 			<p-column field="id" header="MID" [sortable]="false" [style]="{'width':'100px'}"></p-column>

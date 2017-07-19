@@ -46,6 +46,11 @@ hr {
       color: $kTertiary;
     }
   }
+  > span {
+            text-overflow: ellipsis;
+            max-width: 100px;
+            overflow: hidden;
+        }
 }
 
 .kIcon {

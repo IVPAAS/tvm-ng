@@ -97,9 +97,11 @@ export class AssetsTableComponent implements AfterViewInit, OnInit, OnDestroy {
 	}
 
 	getImage(asset : KalturaMediaAsset) : string{
-		if (asset.images)
+		if (asset.images && asset.images.length)
 		{
 			return asset.images[0].url;
+		}else{
+			return "";
 		}
 	}
 	ngOnDestroy() {
