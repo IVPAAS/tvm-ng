@@ -1,0 +1,39 @@
+{
+  "app": {
+    "menu": {
+      "upload": "Upload",
+      "Content": "Content",
+      "Assets": "Assets",
+      "Moderation": "Moderation",
+      "Playlists": "Playlists",
+      "Syndication": "Syndication",
+      "Categories": "Categories",
+      "Studio": "Studio",
+      "Analytics": "Analytics"
+    },
+    "userSettings": {
+      "changeAccount": "Change Acoount",
+      "logout": "Logout"
+    },
+    "languageMenu": {
+      "selectLang": "Select Language"
+    },
+    "common": {
+      "n_a": "N/A",
+      "copyToClipboard": "Copy to clipboard",
+      "copySuccess": "Copied to clipboard",
+      "copyFailure": "Copy operation failed",
+      "on": "On",
+      "off": "Off",
+      "ok": "OK",
+      "cancel": "Cancel",
+      "retry": "Retry",
+      "confirm": "Confirm",
+      "close": "Close",
+      "note": "Note:"
+    }
+  },
+  "applications": {
+
+  }
+}

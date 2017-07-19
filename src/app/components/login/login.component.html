@@ -1,0 +1,40 @@
+<div class="loginContainer" *ngIf="showLogin">
+
+        <div class="header">
+            <div>
+              <div class="k-logo"></div>
+            </div>
+
+            <div class="kHeaderRight">
+              <div class="pullRight">
+              </div>
+            </div>
+        </div>
+
+        <div class="login-center">
+            <div class="loginWindow">
+                <div class="k-logo-animated-500-400"></div>
+                    <div class="title">
+                        Kaltura Media Management
+                    </div>
+                  <div class="loginForm">
+                      <div class="loginAlert" *ngIf="errorMessage">{{ errorMessage }}</div>
+                      <form role="form" (submit)="login(partnerId.value, username.value, password.value, $event)">
+                          <div>
+                              <label for="partnerId">Partner Id</label>
+                              <input type="text" pInputText #partnerId id="partnerId" placeholder="preffered values 198 or 203">
+                          </div>
+                          <div>
+                              <label for="username">Username</label>
+                              <input type="text" pInputText #username id="username" placeholder="Username">
+                          </div>
+                          <div>
+                              <label for="password">Password</label>
+                              <input type="password" pInputText #password id="password" placeholder="Password">
+                          </div>
+                          <button class="kButtonDefault" pButton type="text" type="submit" label="{{ inProgress ? 'Wait...' : 'Submit'}}" [disabled]="inProgress"></button>
+                      </form>
+                  </div>
+              </div>
+        </div>
+</div>

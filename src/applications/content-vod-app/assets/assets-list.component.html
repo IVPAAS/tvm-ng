@@ -1,0 +1,38 @@
+<k-area-blocker [showLoader]="(state$ | async)?.busy" [message]="_blockerMessage">
+	<div class="kAssets kOverrideFAIcons">
+		<div #assetsTableHolder class="kAssetsHolder kContent">
+			<div class="kAssetsTableFilters">
+				<span class="kSelectedAssetsNum" *ngIf="(_assetsStore.assets$ | async)?.totalCount">{{(_assetsStore.assets$ | async)?.totalCount | number }} Items</span>
+
+				<div [class.kHidden]="!_selectedAssets.length" class="kBulkOperations">
+					<span class="kSelectedAssetsLabel">• {{_selectedAssets.length | number }} selected</span>
+					<button pButton icon="kIcontrash" class="kButtonDanger kBulkDeleteBtn"></button>
+					<a class="kBulkCancel" (click)="clearSelection()">Clear</a>
+				</div>
+				<div [class.kHidden]="_selectedAssets.length" class="kFilters">
+					<input type="text" pInputText class="kSearchInput"
+						   placeholder="Search">
+					<div  class="kCategoriesFilter"><i class="kIconfolder"></i><span>Refine</span><i class="kIcondropdown_arrow_bottom dropdown"></i></div>
+					<div  class="kRefine"><i class="kIconfilter"></i><span>All VOD</span><i class="kIcondropdown_arrow_bottom dropdown"></i></div>
+				</div>
+				<button pButton class="kButtonDefault kRefreshBtn small" type="text" (click)="_reload()" icon="kIconrefresh" [kTooltip]="Refresh"></button>
+			</div>
+			<kAssetsTable class="kAssetsTable"
+						   [assets]="(_assetsStore.assets$ | async)?.items" [filter]="_filter"
+						   (sortChanged)="onSortChanged($event)"
+						   (actionSelected)="onActionSelected($event)"
+						   [(selectedAssets)]="_selectedAssets"
+						   ></kAssetsTable>
+
+			<div class="kAssetsTableFooter" #footer *ngIf="(_assetsStore.assets$ | async)?.totalCount">
+				<p-paginator
+						[rows]="_filter.pageSize" (onPageChange)="onPaginationChanged($event)"
+							 [first]="_filter.pageIndex * _filter.pageSize"
+							 [totalRecords]="(_assetsStore.assets$ | async)?.totalCount"
+							 [rowsPerPageOptions]="[25,50,75,100]"></p-paginator>
+				<span class="kPaginatorShowRowsLabel">Rows </span>
+			</div>
+		</div>
+		<p-growl [value]="_msgs"></p-growl>
+	</div>
+</k-area-blocker>

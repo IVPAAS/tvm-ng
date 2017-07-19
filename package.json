@@ -1,0 +1,106 @@
+{
+  "name": "tvm-ng",
+  "version": "1.0.0",
+  "license": "AGPL-3.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaltura/tvm-ng.git"
+  },
+  "description": "",
+  "keywords": [
+    "kaltura"
+  ],
+  "author": {
+    "name": "Kaltura Community",
+    "email": "community@kaltura.com"
+  },
+  "bugs": {
+    "url": "https://github.com/kaltura/tvm-ng/issues"
+  },
+  "contributors": [
+    {
+      "name": "Eran Sakal",
+      "email": "eran@sakalim.com"
+    },
+    {
+      "name": "Amir Chervinsky",
+      "email": "amir.chr@gmail.com"
+    }
+  ],
+  "homepage": "https://github.com/kaltura/tvm-ng#readme",
+  "scripts": {
+    "kws": "kws",
+    "ng": "ng",
+    "postinstall": "node ./scripts/fix-tsconfig-paths.js",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "compodoc": "./node_modules/.bin/compodoc -p tsconfig.json --disableGraph --disablePrivateOrInternalSupport --toggleMenuItems"
+  },
+  "dependencies": {
+    "@angular/animations": "^4.0.0",
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0",
+    "@angular/http": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/router": "^4.0.0",
+    "@kaltura-ng/kaltura-common": "^1.0.0",
+    "@kaltura-ng/kaltura-ott-client": "^1.0.0",
+    "@kaltura-ng/kaltura-primeng-ui": "^0.2.1",
+    "@kaltura-ng/kaltura-ui": "^1.0.0",
+    "@kaltura-ng/mc-theme": "^0.1.0",
+    "core-js": "^2.4.1",
+    "intl": "^1.2.5",
+    "jquery": "^3.1.0",
+    "kaltura-ott-typescript-client": "^1.0.0",
+    "moment": "^2.14.1",
+    "ng2-page-scroll": "^4.0.0-beta.7",
+    "ng2-translate": "^5.0.0",
+    "ng2-webstorage": "^1.1.0",
+    "normalize.css": "^5.0.0",
+    "primeng": "4.0.3",
+    "ramda": "^0.22.1",
+    "rxjs": "^5.1.0",
+    "ts-md5": "^1.2.0",
+    "tslib": "^1.5.0",
+    "web-animations-js": "^2.2.5",
+    "zone.js": "^0.8.4"
+  },
+  "devDependencies": {
+    "@angular/cli": "1.1.1",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/language-service": "^4.0.0",
+    "@compodoc/compodoc": "^1.0.0-beta.10",
+    "@kaltura-ng/dev-workspace": "^2.0.2",
+    "@types/core-js": "0.9.28",
+    "@types/jasmine": "2.5.45",
+    "@types/jquery": "^2.0.40",
+    "@types/node": "~6.0.60",
+    "@types/ramda": "^0.0.3",
+    "codelyzer": "~3.0.1",
+    "jasmine-core": "~2.6.2",
+    "jasmine-spec-reporter": "~4.1.0",
+    "karma": "~1.7.0",
+    "karma-chrome-launcher": "~2.1.1",
+    "karma-cli": "~1.0.1",
+    "karma-coverage-istanbul-reporter": "^1.2.1",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "protractor": "~5.1.2",
+    "standard-version": "^4.0.0",
+    "ts-helpers": "^1.1.2",
+    "ts-node": "~3.0.4",
+    "tslint": "~5.3.2",
+    "typescript": "~2.3.3"
+  },
+  "engines": {
+    "node": ">= 7.0.0",
+    "yarn": ">= 0.24.6"
+  }
+}
