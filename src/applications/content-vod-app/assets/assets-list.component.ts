@@ -38,7 +38,7 @@ export class AssetsListComponent implements OnInit, OnDestroy {
         pageSize : null, // pageSize is set to null by design. It will be modified after the first time loading assets
     };
 
-    constructor(private _assetsStore : AssetsStore, private appLocalization: AppLocalization, private router: Router, private _browserService : BrowserService) {
+    constructor(public _assetsStore : AssetsStore, private appLocalization: AppLocalization, private router: Router, private _browserService : BrowserService) {
 
     }
 

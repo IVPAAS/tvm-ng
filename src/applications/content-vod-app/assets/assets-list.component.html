@@ -15,7 +15,7 @@
 					<div  class="kCategoriesFilter"><i class="kIconfolder"></i><span>Refine</span><i class="kIcondropdown_arrow_bottom dropdown"></i></div>
 					<div  class="kRefine"><i class="kIconfilter"></i><span>All VOD</span><i class="kIcondropdown_arrow_bottom dropdown"></i></div>
 				</div>
-				<button pButton class="kButtonDefault kRefreshBtn small" type="text" (click)="_reload()" icon="kIconrefresh" [kTooltip]="Refresh"></button>
+				<button pButton class="kButtonDefault kRefreshBtn small" type="text" (click)="_reload()" icon="kIconrefresh"></button>
 			</div>
 			<kAssetsTable class="kAssetsTable"
 						   [assets]="(_assetsStore.assets$ | async)?.items" [filter]="_filter"
