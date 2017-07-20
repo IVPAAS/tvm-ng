@@ -63,15 +63,6 @@ Below is a summary of the core packages being used:
 
 - The version number listed above represent the latest version deployed to npm for each package. This is not necessarily the versions currently in-use by this app. You can review `package.json` to get the actual packages versions.
 
-## FAQ
-
-#### Where can I create a kaltura account to access the application?
-If you already have a Kaltura account you can use its' credentials to login to the tvm-ng application.
- 
-> Note that any changes to the data will affect your production account. Keep in mind that we are currently under heavy development.
- 
- If you don't have an account yet, you can [sign-up to a free trial](https://corp.kaltura.com/free-trial).
-
 
 ## License and Copyright Information
 All code in this project is released under the [AGPLv3 license](http://www.gnu.org/licenses/agpl-3.0.html) unless a different license for a particular library is specified in the applicable library path.
