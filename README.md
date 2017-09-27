@@ -5,7 +5,6 @@
 TVMng application uses the following technologies and conventions:
 * [Angular CLI](https://cli.angular.io/) to manage the application (dev)ops.
 * [TypeScript](http://www.typescriptlang.org/) language (superset of Javascript).
-* [Yarn](https://yarnpkg.com/en/) as our dependency management.
 * Stylesheets with [SASS](http://sass-lang.com/) (not required, it supports regular css too).
 * Error reported with [TSLint](http://palantir.github.io/tslint/) and [Codelyzer](https://github.com/mgechev/codelyzer).
 * Best practices in file and application organization for [Angular 2]({https://angular.io/).
@@ -16,7 +15,7 @@ TVMng application uses the following technologies and conventions:
 
 - [x] Ensure you have [node.js installed](https://nodejs.org/en/download/current/), version 7.0.0 or above. 
 - [x] Ensure you have [git installed](https://git-for-windows.github.io/) 
-- [x] Ensure you have [yarn installed](https://yarnpkg.com/lang/en/docs/install/) (we use it for node package management) 
+- [x] Ensure you have npm installed, version 5.0.0 or above.
 
 ### Get the sources
 To get the sources and run tvm-ng project, run the following commands: 
@@ -28,8 +27,8 @@ $ git clone https://github.com/kaltura/tvm-ng.git
 # change directory to your app
 $ cd tvm-ng
 
-# install the dependencies with yarn
-$ yarn
+# install the dependencies with npm
+$ npm install
 ```
 
 
@@ -37,13 +36,13 @@ $ yarn
 ### Run the application
 Once you got the sources and installed depedencies, you can compile the application and access it in the browser with the following command:
 ```
-$ yarn start
+$ npm start
 ```
 navigate to [http://localhost:4200](http://localhost:4200) in your browser.
 
 **Note**: you can change the port number using environment `port` variable as shown bellow:
 ```bash
-$ PORT=3333 yarn start
+$ PORT=3333 npm start
 ```
 
 ## TVM-ng solution
