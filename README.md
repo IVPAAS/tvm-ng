@@ -32,7 +32,6 @@ $ cd tvm-ng
 $ yarn
 ```
 
-**Note**: during the `yarn` execution you might encounter some warning of 'incorrect peer dependency' - those warnings should not affect your work still we will handle them in the near future.
 
 
 ### Run the application
