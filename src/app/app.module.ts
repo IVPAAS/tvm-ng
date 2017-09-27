@@ -102,10 +102,7 @@ export function clientConfigurationFactory()
 export class AppModule {
   constructor(appBootstrap: AppBootstrap, appLocalization : AppLocalization, config: AppDefaultConfig){
 
-
-
-    appLocalization.supportedLocales = environment.core.locales;
-
+    //appLocalization.supportedLocales = environment.core.locales;
     appBootstrap.initApp(<AppBootstrapConfigType>config);
   }
 }

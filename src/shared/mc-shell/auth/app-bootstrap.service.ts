@@ -2,8 +2,9 @@ import { Injectable, InjectionToken, Inject, Optional, Type } from '@angular/cor
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AppLocalization } from '@kaltura-ng/kaltura-common';
+import { AppLocalization, AppStorage } from '@kaltura-ng/kaltura-common';
 import { AppAuthentication } from "./app-authentication.service";
+import { environment } from 'app-config';
 
 export const BootstrapAdapterToken = new InjectionToken('bootstrapAdapter');
 
@@ -42,6 +43,7 @@ export class AppBootstrap implements CanActivate{
 
     constructor(private appLocalization: AppLocalization,
                 private auth: AppAuthentication,
+                private appStorage: AppStorage,
                 @Inject(BootstrapAdapterToken) @Optional() private bootstrapAdapters : BootstrapAdapter[]){
 
     }
@@ -94,18 +96,18 @@ export class AppBootstrap implements CanActivate{
             this._bootstrapConfig = appBootstrapConfig;
 
             // init localization, wait for localization to load before continuing
-            this.appLocalization.load().subscribe(
-                (localizationSupported) => {
+            this.appLocalization.setFilesHash(environment.shell.languageHash);
+            const language = this.getCurrentLanguage();
+            this.appLocalization.load(language,'en').subscribe(
+                () => {
                     // Start authentication process
-                    if (!this.executeAdapter(BootstrapAdapterType.preAuth))
-                    {
+                    if (!this.executeAdapter(BootstrapAdapterType.preAuth)) {
                         bootstrapFailure("preAuth adapter execution failure");
                         return;
                     }
                     this.auth.loginAutomatically().subscribe(
                         () => {
-                            if (!this.executeAdapter(BootstrapAdapterType.postAuth))
-                            {
+                            if (!this.executeAdapter(BootstrapAdapterType.postAuth)) {
                                 bootstrapFailure("postAuth adapter execution failure");
                                 return;
                             }
@@ -125,6 +127,19 @@ export class AppBootstrap implements CanActivate{
 
     validateConfig(config: AppBootstrapConfig): boolean{
         return (config && !!config.configUri);
+    }
+
+    private getCurrentLanguage(): string {
+        let lang: string = null;
+        // try getting last selected language from local storage
+        if (this.appStorage.getFromLocalStorage('tvm_lang') !== null) {
+            const userLanguage: string = this.appStorage.getFromLocalStorage('tvm_lang');
+            if (environment.core.locales.find(locale => locale.id === userLanguage)) {
+                lang = userLanguage;
+            }
+        }
+
+        return lang === null ? "en" : lang;
     }
 
     executeAdapter(adapterType: BootstrapAdapterType):boolean{
