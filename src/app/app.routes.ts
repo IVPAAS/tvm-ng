@@ -13,18 +13,14 @@ const routes: Routes = <Routes>[
   {
     path: '', canActivate: [AppBootstrap],
     children: [
-
       { path: 'login', component: LoginComponent },
+      { path: '', redirectTo: '/login', pathMatch: 'full' },
       {
         path: '', component: DashboardComponent, canActivate: [AuthCanActivate], children: [
           {
             path: 'content', children: [
-              {
-                path: '', redirectTo: 'assets', pathMatch: 'full'
-              },
-              {
-                path: 'assets', loadChildren: '../applications/content-vod-app/content-vod-app.module#ContentVODAppModule'
-              }
+              { path: '', redirectTo: 'assets', pathMatch: 'full' },
+              { path: 'assets', loadChildren: '../applications/content-vod-app/content-vod-app.module#ContentVODAppModule' }
             ]
           },
           {

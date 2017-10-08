@@ -36,7 +36,7 @@ export const environment = {
     },
     "menuConfig": [
       {
-        "routePath": "1",
+        "routePath": "dashboard",
         "titleToken": "Dashboard",
         "showSubMenu": false,
         "enabled": false
@@ -48,36 +48,40 @@ export const environment = {
         "enabled": true,
         "children": [
           {
-            "routePath": "content/vod",
+            "routePath": "content/assets",
             "titleToken": "VOD",
-            "enabled": true
+            "enabled": true, 
+            "position": "left",
+            "icon": "kIconbulk"
           },
           {
-            "routePath": "1",
+            "routePath": "content/collection",
             "titleToken": "Collection",
-            "enabled": false
+            "enabled": false, 
+            "position": "left",
+            "icon": "kIconbulk"
           }
         ]
       },
       {
-        "routePath": "1",
+        "routePath": "audience",
         "titleToken": "Audience",
         "showSubMenu": false,
         "enabled": false
       },
       {
-        "routePath": "1",
+        "routePath": "offerings",
         "titleToken": "Offerings",
         "showSubMenu": false,
         "enabled": false
       },
       {
-        "routePath": "1",
+        "routePath": "rules",
         "titleToken": "Rules",
         "showSubMenu": false,
         "enabled": false
       }, {
-        "routePath": "1",
+        "routePath": "insights",
         "titleToken": "Insights",
         "showSubMenu": false,
         "enabled": false
@@ -91,7 +95,8 @@ export const environment = {
           {
             "routePath": "settings/metadataTemplates",
             "titleToken": "Metadata Templates",
-            "enabled": true
+            "enabled": true, 
+            "icon": "kIconbulk"
           }
         ]
       }

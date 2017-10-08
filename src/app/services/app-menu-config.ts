@@ -5,6 +5,7 @@ export interface AppMenuItem {
     titleToken : string;
     children?: AppMenuItem[];
     position?: string;
+    icon?: string;
 }
 export function validateConfig(config: AppMenuConfig): void {
     // todo [tvm-ng]: check config validity

@@ -1,4 +1,7 @@
 @import 'app-theme/_variables.scss';
+i {
+    padding-right: 2px; 
+}
 
 a {
   color: $subLinkColor;
@@ -44,7 +47,7 @@ a {
     margin-left: 30px;
   }
   &.active {
-    > .linkMarker {
+    >.linkMarker {
       opacity: 1;
     }
   }
