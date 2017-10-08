@@ -56,22 +56,7 @@ export const environment = {
           },
           {
             "routePath": "1",
-            "titleToken": "Live",
-            "enabled": false
-          },
-          {
-            "routePath": "1",
             "titleToken": "Collection",
-            "enabled": false
-          },
-          {
-            "routePath": "1",
-            "titleToken": "Moderation",
-            "enabled": false
-          },
-          {
-            "routePath": "1",
-            "titleToken": "Tags",
             "enabled": false
           }
         ]
@@ -85,12 +70,6 @@ export const environment = {
       {
         "routePath": "1",
         "titleToken": "Offerings",
-        "showSubMenu": false,
-        "enabled": false
-      },
-      {
-        "routePath": "1",
-        "titleToken": "Distribution",
         "showSubMenu": false,
         "enabled": false
       },

@@ -17,11 +17,26 @@ const routes: Routes = <Routes>[
       { path: 'login', component: LoginComponent },
       {
         path: '', component: DashboardComponent, canActivate: [AuthCanActivate], children: [
-        { path: 'content', children: [
-          { path: '', redirectTo: 'assets', pathMatch: 'full' },
-          { path: 'assets', loadChildren: '../applications/content-vod-app/content-vod-app.module#ContentVODAppModule' }
-        ]}
-      ]
+          {
+            path: 'content', children: [
+              {
+                path: '', redirectTo: 'assets', pathMatch: 'full'
+              },
+              {
+                path: 'assets', loadChildren: '../applications/content-vod-app/content-vod-app.module#ContentVODAppModule'
+              }
+            ]
+          },
+          {
+            path: 'settings', children: [
+              { path: '', redirectTo: 'templatesSettings', pathMatch: 'full' },
+              {
+                path: 'templatesSettings',
+                loadChildren: '../applications/settings-templates-assets-app/settings-templates-assets.module#SettingsTemplatesAssetsModule'
+              }
+            ]
+          },
+        ]
       },
       {
         path: '**', redirectTo: '/login', pathMatch: 'full'

@@ -34,6 +34,10 @@
     }
   },
   "applications": {
-
+    "content": {
+      "assets": {
+        "search": "Search"
+      }
+    }
   }
 }

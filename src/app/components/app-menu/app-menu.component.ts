@@ -56,4 +56,8 @@ export class AppMenuComponent implements OnInit, OnDestroy{
         this.sub.unsubscribe();
     }
 
+    navigate(path):void{
+        this.router.navigate([path]);
+    }
+
 }

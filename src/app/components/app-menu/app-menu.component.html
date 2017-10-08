@@ -1,35 +1,43 @@
 <div #appmenu class="appMenu">
 
-      <div class="k-logo"></div>
+  <div class="k-logo"></div>
 
-      <div *ngFor="let item of menuConfig">
-        <a [routerLinkActive]="['activeLink']" [routerLink]="['/'+item.routePath]" [class.disabled]="!item.enabled">{{ item.titleToken | uppercase}}</a>
-      </div>
-
-    <div class="kMenu-right">
-        <i class="kIconuser"></i>
-        <i class="kIcongear"></i>
-        <i #help class="kIconhelp"  [class.open]="_helpOpen"></i>
-        <div #username class="kUserName" [class.open]="_userSettingsOpen">
-            <span>{{_userContext.fullName}}</span>
-            <i class="kIcondropdown_arrow_bottom"></i>
-        </div>
+  <div *ngFor="let item of menuConfig">
+    <a [routerLinkActive]="['activeLink']" [routerLink]="['/'+item.routePath]" [class.disabled]="!item.enabled">{{ item.titleToken | uppercase}}</a>
+  </div>
+  <div>
+    <div class="kStudio">
+      <i class="kStudioItem kIconuser"></i>
+      <a class="kStudioItem">STUDIO</a>
     </div>
+  </div>
+  <div class="kMenu-right">
+    <i class="kIconuser"></i>    
+    <i class="kIcongear" (click)="navigate('/settings')" [class.open]="selectedMenuItem?.routePath==='settings'" ></i>
+    <i #help class="kIconhelp" [class.open]="_helpOpen"></i>    
+  </div>
+  <div class=kSeparator></div>
+  <div #username class="kUserName" [class.open]="_userSettingsOpen">
+    <span>{{_userContext.fullName}}</span>
+    <i class="kIcondropdown_arrow_bottom"></i>
+  </div>
 </div>
 
 <div class="appSubMenu" *ngIf="selectedMenuItem && showSubMenu && selectedMenuItem.children">
-    <div class="kContent">
-        <div *ngFor="let subitem of selectedMenuItem.children" class="subMenuContainer" [routerLinkActive]="['active']">
-          <a [routerLinkActive]="['activeLink']" [routerLink]="['/'+subitem.routePath]" [class.disabled]="!subitem.enabled">{{subitem.titleToken | uppercase}}</a>
-          <div class="linkMarker"></div>
-        </div>
+  <div class="kContent">
+    <div *ngFor="let subitem of selectedMenuItem.children" class="subMenuContainer" [routerLinkActive]="['active']">
+      <a [routerLinkActive]="['activeLink']" [routerLink]="['/'+subitem.routePath]" [class.disabled]="!subitem.enabled">{{subitem.titleToken | uppercase}}</a>
+      <div class="linkMarker"></div>
     </div>
+  </div>
 </div>
 
-<kPopupWidget #usersettings [appendTo]="appmenu" [popupWidth]="240" [popupHeight]="200" [closeBtn]="false" [targetRef]="username" [targetOffset]="{'x':-50, 'y': 30}" (onOpen)="_userSettingsOpen=true" (onClose)="_userSettingsOpen=false">
-    <kKMCUserSettings></kKMCUserSettings>
+<kPopupWidget #usersettings [appendTo]="appmenu" [popupWidth]="240" [popupHeight]="200" [closeBtn]="false" [targetRef]="username"
+  [targetOffset]="{'x':-50, 'y': 30}" (onOpen)="_userSettingsOpen=true" (onClose)="_userSettingsOpen=false">
+  <kKMCUserSettings></kKMCUserSettings>
 </kPopupWidget>
 
-<kPopupWidget #helpmenu [showTooltip]="true" [appendTo]="appmenu" [popupWidth]="100" [popupHeight]="50" [closeBtn]="false" [targetRef]="help" [targetOffset]="{'x':-38, 'y': 35}" (onOpen)="_helpOpen=true" (onClose)="_helpOpen=false">
-    <div style="margin-top:10px;text-align:center">S.O.S</div>
+<kPopupWidget #helpmenu [showTooltip]="true" [appendTo]="appmenu" [popupWidth]="100" [popupHeight]="50" [closeBtn]="false"
+  [targetRef]="help" [targetOffset]="{'x':-38, 'y': 35}" (onOpen)="_helpOpen=true" (onClose)="_helpOpen=false">
+  <div style="margin-top:10px;text-align:center">S.O.S</div>
 </kPopupWidget>
