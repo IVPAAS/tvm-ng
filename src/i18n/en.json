@@ -16,7 +16,9 @@
       "Rules":"Rules",
       "Insights":"Insights",
       "VOD":"VOD",
-      "Collection":"Collection"
+      "Collection":"Collection",
+      "Settings": "Settings",
+      "Metadata Templates":"Metadata Templates"      
     },
     "userSettings": {
       "changeAccount": "Change Acoount",
