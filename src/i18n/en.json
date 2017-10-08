@@ -9,7 +9,14 @@
       "Syndication": "Syndication",
       "Categories": "Categories",
       "Studio": "Studio",
-      "Analytics": "Analytics"
+      "Analytics": "Analytics",
+      "Dashboard":"Dashboard",
+      "Audience":"Audience",
+      "Offerings":"Offerings",
+      "Rules":"Rules",
+      "Insights":"Insights",
+      "VOD":"VOD",
+      "Collection":"Collection"
     },
     "userSettings": {
       "changeAccount": "Change Acoount",

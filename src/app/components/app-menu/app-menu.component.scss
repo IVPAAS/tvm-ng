@@ -3,7 +3,7 @@
 .appMenu {
   background-color: $menuBkgColor;
   display: flex;
-  align-items: center;
+  align-items: center;  
   a {
     color: $mainLinkColor;
     outline: 0;
@@ -68,6 +68,11 @@
     margin-top: 15px;
     float: right;
   }
+  .kMenu-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
   .kStudio {
     height: 32px;
     border-radius: 4px;
@@ -83,24 +88,8 @@
       }
     }
   }
-  .kMenu-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-  }
-  .kUploadBtn {
-    height: 28px;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-    border: 0px solid $menuBkgColor;
-    color: $kGrayscale1;
-    margin-right: 12px;
-    padding-left: 6px;
-    padding-right: 6px;
-  }
   .kSeparator {
-    border-left: 1px solid rgba(255,255,255,0.2);;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
     height: $appMenuHeight;
   }
   .kUserName {
@@ -126,79 +115,41 @@
       margin-left: 6px;
       margin-top: 2px;
     }
-    >span {
-      text-overflow: ellipsis;
-      max-width: 150px;
-      overflow: hidden;
+  }
+}
+
+.kHelpMenu {
+  background-color: white;
+  padding-left: 12px;
+  overflow: hidden;
+  .kHelpTitle {
+    font-size: 14px;
+    color: $kGrayscale3;
+  }
+  .kHelpLink {
+    font-size: 14px;
+    cursor: pointer;
+    color: $kGrayscale1;
+    &:hover {
+      color: #000000;
     }
   }
-}
-
-.kHelpTitle {
-  font-size: 14px;
-  color: $kGrayscale3;
-}
-
-.kHelpLink {
-  font-size: 14px;
-  cursor: pointer;
-  color: $kGrayscale1;
-  &:hover {
-    color: #000000;
+  .kContexualHelp {
+    background-color: $kGrayscale7;
+    margin: -15px;
+    padding: 15px;
+    padding-top: 0px;
+    margin-top: 0px;
   }
-}
-
-.kContexualHelp {
-  background-color: $kGrayscale7;
-  margin: -15px;
-  padding: 15px;
-  padding-top: 0px;
-  margin-top: 0px;
 }
 
 .appSubMenu {
   background-color: white;
   border-bottom: 2px solid $kGrayscale5;
-  a {
-    color: $subLinkColor;
-    line-height: $appMenuHeight;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    text-decoration: none;
-    &.disabled {
-      color: $kGrayscale4;
-      border: 0px solid white;
-      pointer-events: none;
-    }
-    &:hover {
-      text-decoration: none;
-      color: $menuBkgColor;
-    }
-    &.activeLink {
-      text-decoration: none;
-      color: $menuBkgColor;
-    }
+  .kSubMenuHolder {
+    justify-content: space-between;
   }
-  .subMenuContainer {
-    margin-right: 30px;
-    position: relative;
-    &.active {
-      >.linkMarker {
-        opacity: 1;
-      }
-    }
-  }
-  .linkMarker {
-    width: 100%;
-    height: 4px;
-    position: absolute;
-    background-color: $menuBkgColor;
-    opacity: 0;
-    bottom: 0px;
-    transition: opacity .3s ease-in-out;
-    -moz-transition: opacity .3s ease-in-out;
-    -webkit-transition: opacity .3s ease-in-out;
+  .kSubMenu {
+    display: flex;
   }
 }
