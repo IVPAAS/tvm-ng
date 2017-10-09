@@ -7,6 +7,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {ButtonModule, DropdownModule, InputTextModule} from "primeng/primeng";
 import { AreaBlockerModule } from "@kaltura-ng/kaltura-ui";
 import {TranslateModule} from "ng2-translate";
+import { MediaAssetsTypesComponentsList } from "./media-assets-types/media-assets-types-components-list";
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {TranslateModule} from "ng2-translate";
     AreaBlockerModule,    
     TranslateModule
   ],
-  declarations: [SettingsMetadataTemplatesComponent]
+  declarations: [SettingsMetadataTemplatesComponent,        
+    MediaAssetsTypesComponentsList]
 })
 export class SettingsMetadataTemplatesAppModule {
 }
