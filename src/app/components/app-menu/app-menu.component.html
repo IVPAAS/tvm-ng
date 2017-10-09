@@ -7,7 +7,7 @@
   </div>
 
   <div>
-    <div class="kStudio">        
+    <div class="kStudio">
       <i class="kStudioItem kIconshare"></i>
       <a class="kStudioItem">STUDIO</a>
     </div>
@@ -20,11 +20,10 @@
   </div>
   <div class=kSeparator></div>
   <div #username class="kUserName">
-    <span>{{_userContext.fullName}}</span>
+    <span class="kFullName">{{_userContext.fullName}}</span>
     <i class="kIcondropdown_arrow_bottom"></i>
   </div>
 </div>
-
 
 <div class="appSubMenu" *ngIf="selectedMenuItem && showSubMenu && selectedMenuItem.children">
   <div class="kContent kSubMenuHolder">
