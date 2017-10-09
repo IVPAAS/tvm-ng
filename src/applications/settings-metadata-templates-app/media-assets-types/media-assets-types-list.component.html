@@ -3,6 +3,9 @@
           <div class="kContent kDetailsWrapper">
             <div class="kDetailsHeader">
               <div class="kTitle">{{'applications.settings.metadataTemplates.mediaAssetsTypes' | translate}}</div>
+              <span class="kSelectedCategoriesNum" *ngIf="_categoriesTotalCount">
+                    {{_categoriesTotalCount}} {{'applications.content.categories.categories' | translate}}
+                  </span>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { MediaAssetsTypesService } from './media-assets-types.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -28,7 +29,8 @@ export class MediaAssetsTypesListComponent implements OnInit, OnDestroy {
 
   
 
-    constructor(private router: Router,
+    constructor(private _mediaAssetsTypesService: MediaAssetsTypesService, 
+        private router: Router,
         private _browserService: BrowserService,
         private _appLocalization: AppLocalization) {
     }
@@ -44,12 +46,12 @@ export class MediaAssetsTypesListComponent implements OnInit, OnDestroy {
         //         this.dataTable.scrollToTop();
         //     });
 
-        // this.categoriesSubscription = this._categoriesService.categories$.subscribe(
-        //     (data) => {
-        //         this._categories = data.items;
-        //         this._categoriesTotalCount = data.totalCount;
-        //     }
-        // );
+        this.categoriesSubscription = this._mediaAssetsTypesService._mediaAssetsTypes$.subscribe(
+            (data) => {
+                this._categories = data.items;
+                this._categoriesTotalCount = data.totalCount;
+            }
+        );
     }
 
     ngOnDestroy() {
