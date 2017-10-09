@@ -50,7 +50,8 @@
     },
     "settings": {
       "metadataTemplates": {
-        "mediaAssetsTypes": "Media Assets Types"
+        "mediaAssetsTypes": "Media Assets Types",
+        "items": "items"
       }
     }
   }

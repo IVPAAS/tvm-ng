@@ -17,23 +17,13 @@
     display: flex;
     flex-direction: column;
   }
-  .kRefreshBtn {
-    font-size: 24px;
-    border: none;
-    min-width: inherit;
-    margin-right: 16px;
-    width: 40px;
-    outline: 0;
-    color: $kGrayscale3;
-    &:active {
-      box-shadow: none;
-      transform: rotate(45deg);
-    }
-    &:hover {
-      background-color: #ffffff;
-      color: $kPrimary;
-    }
+  .kTitle{
+    color: $kGrayscale1;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 28px;
   }
+  
   .kCategoriesTableFilters {
     color: $kGrayscale1;
     width: 100%;

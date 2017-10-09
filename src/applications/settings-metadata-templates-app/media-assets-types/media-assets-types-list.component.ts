@@ -21,7 +21,6 @@ export class MediaAssetsTypesListComponent implements OnInit, OnDestroy {
 
     public _isBusy = false
     public _blockerMessage: AreaBlockerMessage = null;
-    public _selectedCategories: any[] = [];
     public _categories: any[] = [];
     public _categoriesTotalCount: number = null;
     private categoriesSubscription: ISubscription;
@@ -57,15 +56,7 @@ export class MediaAssetsTypesListComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.categoriesSubscription.unsubscribe();
         this.querySubscription.unsubscribe();
-    }
-
-    public _reload() {
-        this._clearSelection();
-        //this._categoriesService.reload(true);
-    }
-    _clearSelection() {
-        this._selectedCategories = [];
-    }
+    }   
 
     _onSortChanged(event): void {
         // this._categoriesService.reload({
