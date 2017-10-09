@@ -28,7 +28,7 @@ const routes: Routes = <Routes>[
               { path: '', redirectTo: 'metadataTemplates', pathMatch: 'full' },
               {
                 path: 'metadataTemplates',
-                loadChildren: '../applications/settings-templates-assets-app/settings-templates-assets.module#SettingsTemplatesAssetsModule'
+                loadChildren: '../applications/settings-metadata-templates-app/settings-metadata-templates.module#SettingsTemplatesAssetsModule'
               }
             ]
           },

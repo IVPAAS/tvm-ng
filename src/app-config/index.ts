@@ -22,7 +22,7 @@ export const environment = {
     }
   },
   "shell": {
-    "defaultRoute": "/content/assets",
+    "defaultRoute": "/settings/metadataTemplates",
     "languageHash": "12", /* this value is set manually at the moment and should be replaced with the published app version  */
     "loginRoute": "/login",
     "errorRoute": "/error",

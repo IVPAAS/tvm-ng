@@ -8,9 +8,9 @@ import { CommonModule } from '@angular/common';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
 
-import { BootstrapAdapterToken, AppBootstrap, AppBootstrapConfig  as AppBootstrapConfigType } from 'app-shared/mc-shell';
+import { BootstrapAdapterToken, AppBootstrap, AppBootstrapConfig as AppBootstrapConfigType } from 'app-shared/mc-shell';
 import { KalturaCommonModule, AppStorage } from '@kaltura-ng/kaltura-common';
-import { AreaBlockerModule } from '@kaltura-ng/kaltura-ui';
+import { AreaBlockerModule, TooltipModule } from '@kaltura-ng/kaltura-ui';
 import { KalturaClient, KalturaClientConfiguration } from '@kaltura-ng/kaltura-ott-client';
 import { PopupWidgetModule } from '@kaltura-ng/kaltura-ui/popup-widget';
 
@@ -41,8 +41,7 @@ import { environment } from 'app-environment';
 import { AuthModule } from 'app-shared/mc-shell';
 
 
-export function clientConfigurationFactory()
-{
+export function clientConfigurationFactory() {
   const result = new KalturaClientConfiguration();
   result.endpointUrl = environment.core.kaltura.apiUrl;
   result.clientTag = 'TVMng';
@@ -51,14 +50,14 @@ export function clientConfigurationFactory()
 
 @NgModule({
   imports: <any>[
-    AuthModule ,
-	FormsModule,
+    AuthModule,
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     ButtonModule,
     CommonModule,
     ConfirmDialogModule,
-	DropdownModule,
+    DropdownModule,
     HttpModule,
     InputTextModule,
     Ng2PageScrollModule.forRoot(),
@@ -69,10 +68,11 @@ export function clientConfigurationFactory()
     routing,
     TieredMenuModule,
     UploadManagementModule,
-    AreaBlockerModule
+    AreaBlockerModule,
+    TooltipModule
   ],
   declarations: <any>[
-      AppComponent,
+    AppComponent,
     DashboardComponent,
     AppMenuComponent,
     LoginComponent,
@@ -81,28 +81,28 @@ export function clientConfigurationFactory()
     AppMenuContentComponent
   ],
   bootstrap: <any>[
-      AppComponent
+    AppComponent
   ],
-  exports: [ ],
+  exports: [],
   providers: <any>[
     AppMenuService,
     {
-      provide : BootstrapAdapterToken,
-      useClass : KalturaAuthConfigAdapter,
-      multi : true
+      provide: BootstrapAdapterToken,
+      useClass: KalturaAuthConfigAdapter,
+      multi: true
     },
     AppDefaultConfig,
-    { provide : AppStorage,  useExisting : BrowserService },
+    { provide: AppStorage, useExisting: BrowserService },
     KalturaClient,
     {
-      provide : KalturaClientConfiguration,
-      useFactory : clientConfigurationFactory
+      provide: KalturaClientConfiguration,
+      useFactory: clientConfigurationFactory
     },
     ConfirmationService
   ]
 })
 export class AppModule {
-  constructor(appBootstrap: AppBootstrap, appLocalization : AppLocalization, config: AppDefaultConfig){
+  constructor(appBootstrap: AppBootstrap, appLocalization: AppLocalization, config: AppDefaultConfig) {
 
     //appLocalization.supportedLocales = environment.core.locales;
     appBootstrap.initApp(<AppBootstrapConfigType>config);

@@ -20,7 +20,7 @@
   </div>
   <div class=kSeparator></div>
   <div #username class="kUserName">
-    <span class="kFullName">{{_userContext.fullName}}</span>
+    <span class="kFullName" [kTooltip]="_userContext.fullName" placement="left">{{_userContext.fullName}}</span>
     <i class="kIcondropdown_arrow_bottom"></i>
   </div>
 </div>

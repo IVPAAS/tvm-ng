@@ -10,15 +10,15 @@
       "Categories": "Categories",
       "Studio": "Studio",
       "Analytics": "Analytics",
-      "Dashboard":"Dashboard",
-      "Audience":"Audience",
-      "Offerings":"Offerings",
-      "Rules":"Rules",
-      "Insights":"Insights",
-      "VOD":"VOD",
-      "Collection":"Collection",
+      "Dashboard": "Dashboard",
+      "Audience": "Audience",
+      "Offerings": "Offerings",
+      "Rules": "Rules",
+      "Insights": "Insights",
+      "VOD": "VOD",
+      "Collection": "Collection",
       "Settings": "Settings",
-      "Metadata Templates":"Metadata Templates"      
+      "Metadata Templates": "Metadata Templates"
     },
     "userSettings": {
       "changeAccount": "Change Acoount",
@@ -46,6 +46,11 @@
     "content": {
       "assets": {
         "search": "Search"
+      }
+    },
+    "settings": {
+      "metadataTemplates": {
+        "mediaAssetsTypes": "Media Assets Types"
       }
     }
   }
