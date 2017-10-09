@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SettingsTemplatesAssetsComponent} from './settings-metadata-templates.component';
-import {routing} from "./settings-metadata-templates.routes";
+import {SettingsMetadataTemplatesComponent} from './settings-metadata-templates.component';
+import {routing} from "./settings-metadata-templates-app.routes";
 import {RouterModule} from "@angular/router";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ButtonModule, DropdownModule, InputTextModule} from "primeng/primeng";
@@ -19,7 +19,7 @@ import {TranslateModule} from "ng2-translate";
     AreaBlockerModule,    
     TranslateModule
   ],
-  declarations: [SettingsTemplatesAssetsComponent]
+  declarations: [SettingsMetadataTemplatesComponent]
 })
-export class SettingsTemplatesAssetsModule {
+export class SettingsMetadataTemplatesAppModule {
 }

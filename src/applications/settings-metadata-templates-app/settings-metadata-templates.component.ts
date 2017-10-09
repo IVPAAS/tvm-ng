@@ -7,7 +7,7 @@ import { AreaBlockerMessage } from '@kaltura-ng/kaltura-ui';
     templateUrl: './settings-metadata-templates.component.html',
     styleUrls: ['./settings-metadata-templates.component.scss']
   })
-  export class SettingsTemplatesAssetsComponent{
+  export class SettingsMetadataTemplatesComponent{
     public _isBusy = false    
     public isSafari: boolean = false;
     public _blockerMessage: AreaBlockerMessage = null;   
