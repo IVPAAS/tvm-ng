@@ -22,7 +22,8 @@ export interface MediaAssetsType {
     id: number,
     name: string,
     type: TemplateType,
-    lastModified?: Date
+    lastModified?: Date,
+    assetType: MediaAssetType
 }
 
 export interface KalturaCategoryListResponse {
@@ -33,6 +34,12 @@ export interface KalturaCategoryListResponse {
 export enum TemplateType {
     Predefined,
     Custom
+}
+
+export enum MediaAssetType {
+    Movie,
+    Episodes,
+    Series
 }
 
 export type UpdateStatus = {
@@ -98,10 +105,11 @@ export class MediaAssetsTypesService implements OnDestroy {
 
     private _executeQuery(): void {
 
+
         let categoryListResponse: KalturaCategoryListResponse;
-        this._mediaAssetsTypes.getValue().items = [{ id: 1, name: "Movies", type: TemplateType.Predefined },
-        { id: 2, name: "Episodes", type: TemplateType.Predefined },
-        { id: 3, name: "Series", type: TemplateType.Predefined }]
+        this._mediaAssetsTypes.getValue().items = [{ id: 1, name: "Movies", type: TemplateType.Predefined, assetType: MediaAssetType.Movie },
+        { id: 2, name: "Episodes", type: TemplateType.Predefined, assetType: MediaAssetType.Episodes },
+        { id: 3, name: "Series", type: TemplateType.Predefined, assetType: MediaAssetType.Series }]
         this._mediaAssetsTypes.getValue().totalCount = 3;
     }
 }

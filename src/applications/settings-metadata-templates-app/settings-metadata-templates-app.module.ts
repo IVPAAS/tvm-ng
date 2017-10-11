@@ -12,6 +12,8 @@ import { KalturaUIModule, TooltipModule } from '@kaltura-ng/kaltura-ui';
 import { PopupWidgetModule } from '@kaltura-ng/kaltura-ui/popup-widget';
 import { KMCShellModule } from 'app-shared/mc-shell';
 import { KalturaPrimeNgUIModule } from '@kaltura-ng/kaltura-primeng-ui';
+import { ContentSharedModule } from "app-shared/content-shared/content-shared.module";
+import { MediaAssetsTypeComponentsList } from "applications/settings-metadata-templates-app/media-assets-type/media-assets-type-components-list";
 
 
 
@@ -48,9 +50,11 @@ import { KalturaPrimeNgUIModule } from '@kaltura-ng/kaltura-primeng-ui';
     SpinnerModule,
     TieredMenuModule,
     TooltipModule,
+    ContentSharedModule
   ],
   declarations: [SettingsMetadataTemplatesComponent,        
-    MediaAssetsTypesComponentsList]
+    MediaAssetsTypesComponentsList,
+    MediaAssetsTypeComponentsList]
 })
 export class SettingsMetadataTemplatesAppModule {
 }

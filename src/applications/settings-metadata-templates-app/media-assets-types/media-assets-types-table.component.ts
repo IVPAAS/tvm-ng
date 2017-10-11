@@ -12,7 +12,7 @@ import { AreaBlockerMessage } from '@kaltura-ng/kaltura-ui';
 	templateUrl: './media-assets-types-table.component.html',
 	styleUrls: ['./media-assets-types-table.component.scss']
 })
-export class MediaAssetsTypesTableComponent  implements AfterViewInit, OnInit, OnDestroy{
+export class MediaAssetsTypesTableComponent implements AfterViewInit, OnInit, OnDestroy {
 
 	public _blockerMessage: AreaBlockerMessage = null;
 
@@ -30,6 +30,8 @@ export class MediaAssetsTypesTableComponent  implements AfterViewInit, OnInit, O
 			this._deferredMediaAssetsTypes = data
 		}
 	}
+
+	@Output() actionSelected = new EventEmitter<any>();
 
 	@ViewChild('dataTable') private _dataTable: DataTable;
 	private _categoriesServiceStatusSubscription: ISubscription;
@@ -94,5 +96,9 @@ export class MediaAssetsTypesTableComponent  implements AfterViewInit, OnInit, O
 				this._deferredMediaAssetsTypes = null;
 			}, 0);
 		}
+	}
+
+	onActionSelected(action: string, mediaAssetsTypeID: number) {
+		this.actionSelected.emit({ "action": action, "mediaAssetsTypeID": mediaAssetsTypeID });
 	}
 }

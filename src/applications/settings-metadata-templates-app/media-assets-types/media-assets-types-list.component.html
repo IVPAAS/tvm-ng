@@ -25,7 +25,8 @@
                 {{_categoriesTotalCount}} {{'applications.settings.metadataTemplates.items' | translate}}
         </span>
       </div>
-      <kMediaAssetsTypesTable class="kCategoriesTable" [mediaAssetsTypes]="_categories">
+      <kMediaAssetsTypesTable class="kCategoriesTable" [mediaAssetsTypes]="_categories"
+      (actionSelected)="_onActionSelected($event)">
       </kMediaAssetsTypesTable>
     </div>
   </div>

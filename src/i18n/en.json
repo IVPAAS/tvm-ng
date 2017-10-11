@@ -53,6 +53,12 @@
         "mediaAssetsTypes": "Media Assets Types",
         "items": "items"
       }
+    },
+    "table":{
+      "name":"Name",
+      "type":"Type",
+      "id":"ID",
+      "lastModified":"Last Modified"
     }
   }
 }

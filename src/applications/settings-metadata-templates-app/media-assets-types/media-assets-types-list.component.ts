@@ -54,8 +54,8 @@ export class MediaAssetsTypesListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.categoriesSubscription.unsubscribe();
-        this.querySubscription.unsubscribe();
+        // this.categoriesSubscription.unsubscribe();
+        // this.querySubscription.unsubscribe();
     }   
 
     _onSortChanged(event): void {
@@ -76,10 +76,10 @@ export class MediaAssetsTypesListComponent implements OnInit, OnDestroy {
         // }
     }
 
-    _onActionSelected(event: { action: string, categoryID: number }) {
+    _onActionSelected(event: { action: string, mediaAssetsTypeID: number }) {
         switch (event.action) {
             case "edit":
-                this.router.navigate(['/content/categories/category', event.categoryID]);
+                this.router.navigate(['/settings/metadataTemplates/mediaAssetsType', event.mediaAssetsTypeID]);
                 break;           
             default:
                 break;
