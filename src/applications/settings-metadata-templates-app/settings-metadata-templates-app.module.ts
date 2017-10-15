@@ -1,11 +1,11 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SettingsMetadataTemplatesComponent} from './settings-metadata-templates.component';
-import {routing} from "./settings-metadata-templates-app.routes";
-import {RouterModule} from "@angular/router";
-import {ReactiveFormsModule} from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SettingsMetadataTemplatesComponent } from './settings-metadata-templates.component';
+import { routing } from "./settings-metadata-templates-app.routes";
+import { RouterModule } from "@angular/router";
+import { ReactiveFormsModule } from "@angular/forms";
 import { AreaBlockerModule } from "@kaltura-ng/kaltura-ui";
-import {TranslateModule} from "ng2-translate";
+import { TranslateModule } from "ng2-translate";
 import { MediaAssetsTypesComponentsList } from "./media-assets-types/media-assets-types-components-list";
 import { TreeModule, TieredMenuModule, SharedModule, AccordionModule, ButtonModule, InputTextareaModule, PaginatorModule, InputTextModule, MenuModule, DataTableModule, DropdownModule, RadioButtonModule, MultiSelectModule, CheckboxModule, CalendarModule, SpinnerModule, ConfirmDialogModule } from 'primeng/primeng';
 import { KalturaUIModule, TooltipModule } from '@kaltura-ng/kaltura-ui';
@@ -22,8 +22,8 @@ import { MediaAssetsTypeComponentsList } from "applications/settings-metadata-te
     CommonModule,
     RouterModule.forChild(routing),
     ReactiveFormsModule,
-    DropdownModule,        
-    AreaBlockerModule,    
+    DropdownModule,
+    AreaBlockerModule,
     TranslateModule,
     AccordionModule,
     AreaBlockerModule,
@@ -52,7 +52,7 @@ import { MediaAssetsTypeComponentsList } from "applications/settings-metadata-te
     TooltipModule,
     ContentSharedModule
   ],
-  declarations: [SettingsMetadataTemplatesComponent,        
+  declarations: [SettingsMetadataTemplatesComponent,
     MediaAssetsTypesComponentsList,
     MediaAssetsTypeComponentsList]
 })
