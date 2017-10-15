@@ -3,13 +3,13 @@ import { ISubscription } from 'rxjs/Subscription';
 import { DataTable } from 'primeng/primeng';
 import { AppLocalization } from '@kaltura-ng/kaltura-common';
 import { AreaBlockerMessage } from '@kaltura-ng/kaltura-ui';
-//import { CategoriesService } from "./categories.service";
+// import { CategoriesService } from "./categories.service";
 
 
 @Component({
-	selector: 'kMediaAssetsType',
-	templateUrl: './media-assets-type.component.html',
-	styleUrls: ['./media-assets-type.component.scss']
+    selector: 'kMediaAssetsType',
+    templateUrl: './media-assets-type.component.html',
+    styleUrls: ['./media-assets-type.component.scss']
 })
-export class MediaAssetsTypeComponent  {
+export class MediaAssetsTypeComponent {
 }
