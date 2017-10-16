@@ -52,13 +52,21 @@
       "metadataTemplates": {
         "mediaAssetsTypes": "Media Assets Types",
         "items": "items"
+      },
+      "mediaAssetType": {
+        "movie": "Movie",
+        "episodes": "Episodes",
+        "series": "Series"
+      },
+      "templateType": {
+        "mediaAssets": "Media Assets"
       }
     },
-    "table":{
-      "name":"Name",
-      "type":"Type",
-      "id":"ID",
-      "lastModified":"Last Modified"
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "id": "ID",
+      "lastModified": "Last Modified"
     }
   }
 }

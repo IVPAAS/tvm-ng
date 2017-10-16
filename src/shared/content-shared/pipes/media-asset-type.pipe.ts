@@ -15,14 +15,14 @@ export class MediaAssetTypePipe implements PipeTransform {
 			switch (value) {
 				case MediaAssetType.Movie:
 					className = 'kIconvideo';
-					tooltip = this.appLocalization.get("applications.metadataTemplates.mediaAssetType.movie");
+					tooltip = this.appLocalization.get("applications.settings.mediaAssetType.movie");
 					break;
 				case MediaAssetType.Episodes:
-					tooltip = this.appLocalization.get("applications.metadataTemplates.mediaAssetType.episodes");
+					tooltip = this.appLocalization.get("applications.settings.mediaAssetType.episodes");
 					className = 'kIconimage';
 					break;
 				case MediaAssetType.Series:
-					tooltip = this.appLocalization.get("applications.metadataTemplates.mediaAssetType.series");
+					tooltip = this.appLocalization.get("applications.settings.mediaAssetType.series");
 					className = 'kIconsound';
 					break;				
 				default:
