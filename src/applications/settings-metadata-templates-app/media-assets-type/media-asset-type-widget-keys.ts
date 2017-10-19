@@ -1,5 +1,6 @@
 export const AssetTypeWidgetKeys = {
     'Metadata': 'Metadata',
-    'Entitlements': 'Entitlements',
-    'SubCategories': 'Sub Categories'
+    'Availability': 'Availability',
+    'Playback': 'Playback',
+    'Images': 'Images'
 };

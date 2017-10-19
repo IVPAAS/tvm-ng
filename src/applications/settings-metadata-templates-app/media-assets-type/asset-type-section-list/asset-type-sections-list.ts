@@ -2,15 +2,19 @@ import { AssetTypeWidgetKeys } from './../media-asset-type-widget-keys';
 
 export const AssetTypeSectionsList = [
     {
-        label: 'applications.content.categoryDetails.sections.metadata',
+        label: 'applications.settings.sections.metadata',
         key: AssetTypeWidgetKeys.Metadata
     },
     {
-        label: 'applications.content.categoryDetails.sections.entitlements',
-        key: AssetTypeWidgetKeys.Entitlements
+        label: 'applications.settings.sections.publishing',
+        key: AssetTypeWidgetKeys.Publishing
     },
     {
-        label: 'applications.content.categoryDetails.sections.subcategories',
-        key: AssetTypeWidgetKeys.SubCategories
+        label: 'applications.settings.sections.playback',
+        key: AssetTypeWidgetKeys.Playback
+    },
+    {
+        label: 'applications.settings.sections.images',
+        key: AssetTypeWidgetKeys.Images
     }
 ];

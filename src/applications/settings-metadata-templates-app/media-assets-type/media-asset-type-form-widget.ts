@@ -1,13 +1,14 @@
-// import { KalturaCategory } from 'kaltura-typescript-client/types/KalturaCategory';
+
+import { KalturaMultiRequest } from 'kaltura-ott-typescript-client';
+import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/KalturaMetaListResponse';
 import { Injectable } from '@angular/core';
 import { FormWidget } from '@kaltura-ng/kaltura-ui';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { AreaBlockerMessage, AreaBlockerMessageButton } from '@kaltura-ng/kaltura-ui';
 import { AssetTypeFormManager } from './media-asset-type-form-manager';
-// import { KalturaMultiRequest } from 'kaltura-typescript-client';
 
 @Injectable()
-export abstract class MediaAssetTypeFormWidget extends FormWidget<null, null> {
+export abstract class MediaAssetTypeFormWidget extends FormWidget<KalturaMetaListResponse, KalturaMultiRequest> {
     public sectionBlockerMessage: AreaBlockerMessage;
     public showSectionLoader: boolean;
 
@@ -28,13 +29,13 @@ export abstract class MediaAssetTypeFormWidget extends FormWidget<null, null> {
         this.sectionBlockerMessage = null;
     }
 
-    protected _showBlockerMessage(message: AreaBlockerMessage, addBackToCategoriesButton: boolean) {
+    protected _showBlockerMessage(message: AreaBlockerMessage, addBackButton: boolean) {
         let messageToShow = message;
-        if (addBackToCategoriesButton) {
+        if (addBackButton) {
             messageToShow = new AreaBlockerMessage({
                 message: message.message,
                 buttons: [
-                    ...this._createBackToCategoriesButton(),
+                    ...this._createBackButton(),
                     ...message.buttons
                 ]
             })
@@ -45,10 +46,10 @@ export abstract class MediaAssetTypeFormWidget extends FormWidget<null, null> {
         this.sectionBlockerMessage = messageToShow;
     }
 
-    protected _createBackToCategoriesButton(): AreaBlockerMessageButton[] {
+    protected _createBackButton(): AreaBlockerMessageButton[] {
         if (this._manager instanceof AssetTypeFormManager) {
             return [{
-                label: 'Back To Categories',
+                label: 'Back To asset types',
                 action: () => {
                     (<AssetTypeFormManager>this._manager).returnToAssetTypes();
                 }

@@ -1,19 +1,19 @@
-// import { KalturaMultiRequest } from 'kaltura-typescript-client';
-// import { KalturaCategory } from 'kaltura-typescript-client/types/KalturaCategory';
+import { KalturaMultiRequest } from 'kaltura-ott-typescript-client';
+import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/KalturaMetaListResponse';
 import { Injectable } from '@angular/core';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { FormManager } from '@kaltura-ng/kaltura-ui'
-import { MediaAssetTypeService } from './media-asset-type.service';
+import { AssetTypeService } from './media-asset-type.service';
 
 @Injectable()
-export class AssetTypeFormManager extends FormManager<null, null> {
-    private _mediaAssetTypeService: MediaAssetTypeService;
+export class AssetTypeFormManager extends FormManager<KalturaMetaListResponse, KalturaMultiRequest> {
+    private _mediaAssetTypeService: AssetTypeService;
 
     constructor() {
         super();
     }
 
-    set categoryStore(value: MediaAssetTypeService) {
+    set MetaService(value: AssetTypeService) {
         this._mediaAssetTypeService = value;
     }
 

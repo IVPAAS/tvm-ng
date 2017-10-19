@@ -1,5 +1,3 @@
-import { KalturaClient } from '@kaltura-ng/kaltura-ott-client';
-import { MediaAssetsTypesService } from './../media-assets-types/media-assets-types.service';
 import { Injectable, OnDestroy, Host } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { AppLocalization } from '@kaltura-ng/kaltura-common';
@@ -9,121 +7,124 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/subscribeOn';
 import 'rxjs/add/operator/switchMap';
-
-// import { KalturaClient } from '@kaltura-ng/kaltura-client';
-// import { KalturaCategory } from 'kaltura-typescript-client/types/KalturaCategory';
-// import { KalturaMultiRequest } from 'kaltura-typescript-client';
-// import { CategoryGetAction } from 'kaltura-typescript-client/types/CategoryGetAction';
-// import { CategoryUpdateAction } from 'kaltura-typescript-client/types/CategoryUpdateAction';
-// import '@kaltura-ng/kaltura-common/rxjs/add/operators';
-// import { CategoryFormManager } from './category-form-manager';
-// import { KalturaTypesFactory } from 'kaltura-typescript-client';
-// import { OnDataSavingReasons } from '@kaltura-ng/kaltura-ui';
-// import { BrowserService } from 'app-shared/kmc-shell/providers/browser.service';
+import '@kaltura-ng/kaltura-common/rxjs/add/operators';
+import { AssetTypeFormManager } from './media-asset-type-form-manager';
+import { OnDataSavingReasons } from '@kaltura-ng/kaltura-ui';
+import { BrowserService } from 'app-shared/mc-shell/providers/browser.service';
+import { MediaAssetsTypesService } from './../media-assets-types/media-assets-types.service';
+import { KalturaClient } from '@kaltura-ng/kaltura-ott-client';
+import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/KalturaMetaListResponse';
+import { MetaListAction } from 'kaltura-ott-typescript-client/types/MetaListAction';
+import { MetaUpdateAction } from 'kaltura-ott-typescript-client/types/MetaUpdateAction';
+import { KalturaTypesFactory, KalturaMultiRequest } from 'kaltura-ott-typescript-client';
 
 export enum ActionTypes {
-    CategoryLoading,
-    CategoryLoaded,
-    CategoryLoadingFailed,
-    CategorySaving,
-    CategoryPrepareSavingFailed,
-    CategorySavingFailed,
-    CategoryDataIsInvalid,
+    Loading,
+    Loaded,
+    LoadingFailed,
+    Saving,
+    PrepareSavingFailed,
+    SavingFailed,
+    DataIsInvalid,
     ActiveSectionBusy
 }
 
-declare type StatusArgs =
-    {
-        action: ActionTypes;
-        error?: Error;
-    }
+declare type StatusArgs = {
+    action: ActionTypes;
+    error?: Error;
+}
 
 @Injectable()
-export class MediaAssetTypeService implements OnDestroy {
+export class AssetTypeService implements OnDestroy {
 
-    private _loadCategorySubscription: ISubscription;
+    private _loadMetaSubscription: ISubscription;
     private _sectionToRouteMapping: { [key: number]: string } = {};
-    private _state = new BehaviorSubject<StatusArgs>({ action: ActionTypes.CategoryLoading, error: null });
-    private _saveCategoryInvoked = false;
+    private _state = new BehaviorSubject<StatusArgs>({ action: ActionTypes.Loading, error: null });
+
     public state$ = this._state.asObservable();
-    private _categoryIsDirty: boolean;
+    private _metaIsDirty: boolean;
 
-    public get categoryIsDirty(): boolean {
-        return this._categoryIsDirty;
+    public get MetaIsDirty(): boolean {
+        return this._metaIsDirty;
     }
 
-    private _reloadCategoriesOnLeave = false;
-    // private _category: BehaviorSubject<KalturaCategory> = new BehaviorSubject<KalturaCategory>(null);
-   //  public category$ = this._category.asObservable();
-    private _categoryId: number;
+    private _saveMetaInvoked = false;
+    private _metaList: BehaviorSubject<KalturaMetaListResponse> = new BehaviorSubject<KalturaMetaListResponse>(null);
+    public metaList$ = this._metaList.asObservable();
+    private _metasIds: string[];
+    public _mediaTypeId: string;
 
-    public get categoryId(): number {
-        return this._categoryId;
+    public get metaIds(): string[] {
+        return this._metasIds;
     }
-    // public get category(): KalturaCategory {
-    //     return this._category.getValue();
-    // }
+
+    public get metaList(): KalturaMetaListResponse {
+        return this._metaList.getValue();
+    }
 
     constructor(private _kalturaServerClient: KalturaClient,
         private _router: Router,
-        // private _browserService: BrowserService,
-        // private _categoriesStore: CategoriesService,
-        // @Host() private _sectionsManager: CategoryFormManager,
-        private _categoryRoute: ActivatedRoute,
+        private _browserService: BrowserService,
+        private _assetTypeListService: MediaAssetsTypesService,
+        @Host() private _formManager: AssetTypeFormManager,
+        private _route: ActivatedRoute,
         private _appLocalization: AppLocalization) {
 
-        // this._sectionsManager.categoryStore = this;
+        // update form manager with it's service
+        this._formManager.MetaService = this;
 
         this._mapSections();
-
         this._onSectionsStateChanges();
         this._onRouterEvents();
     }
 
     private _onSectionsStateChanges() {
-        // this._sectionsManager.widgetsState$
-        //     .cancelOnDestroy(this)
-        //     .debounce(() => Observable.timer(500))
-        //     .subscribe(
-        //     sectionsState => {
-        //         const newDirtyState = Object.keys(sectionsState).reduce((result, sectionName) => result || sectionsState[sectionName].isDirty, false);
+        this._formManager.widgetsState$
+            .cancelOnDestroy(this)
+            .debounce(() => Observable.timer(500))
+            .subscribe(
+            sectionsState => {
+                const newDirtyState = Object.keys(sectionsState).reduce((result, sectionName) => result ||
+                    sectionsState[sectionName].isDirty, false);
 
-        //         if (this._categoryIsDirty !== newDirtyState) {
-        //             console.log(`category store: update category is dirty state to ${newDirtyState}`);
-        //             this._categoryIsDirty = newDirtyState;
-        //             this._updatePageExitVerification();
-        //         }
-        //     }
-        //     );
+                if (this._metaIsDirty !== newDirtyState) {
+                    console.log(`meta service: updating meta is dirty state to ${newDirtyState}`);
+                    this._metaIsDirty = newDirtyState;
+                    this._updatePageExitVerification();
+                }
+            }
+            );
     }
 
     private _updatePageExitVerification() {
-        // if (this._categoryIsDirty) {
-        //     this._browserService.enablePageExitVerification();
-        // }
-        // else {
-        //     this._browserService.disablePageExitVerification();
-        // }
+        if (this._metaIsDirty) {
+            this._browserService.enablePageExitVerification();
+        } else {
+            this._browserService.disablePageExitVerification();
+        }
     }
 
     ngOnDestroy() {
-        // this._loadCategorySubscription && this._loadCategorySubscription.unsubscribe();
-        // this._state.complete();
-        // this._category.complete();
+        if (this._loadMetaSubscription) {
+            this._loadMetaSubscription.unsubscribe();
+        }
 
-        // this._browserService.disablePageExitVerification();
+        this._state.complete();
+        this._metaList.complete();
 
-        // if (this._reloadCategoriesOnLeave) {
-        //     this._categoriesStore.reload(true);
-        // }
+        this._browserService.disablePageExitVerification();
+
+        if (this._saveMetaInvoked) {
+            this._assetTypeListService.reload(true);
+        }
     }
 
     private _mapSections(): void {
-        if (!this._categoryRoute || !this._categoryRoute.snapshot.data.categoryRoute) {
-            throw new Error("this service can be injected from component that is associated to the category route");
+        if (!this._route || !this._route.snapshot.data.mediaTypeRoute) {
+            throw new Error('this service can be injected from component that is associated to the entry route');
         }
 
-        this._categoryRoute.snapshot.routeConfig.children.forEach(childRoute => {
+        this._route.snapshot.routeConfig.children.forEach(childRoute => {
             const routeSectionType = childRoute.data ? childRoute.data.sectionKey : null;
 
             if (routeSectionType !== null) {
@@ -133,146 +134,141 @@ export class MediaAssetTypeService implements OnDestroy {
     }
 
     private _onRouterEvents(): void {
-        // this._router.events
-        //     .cancelOnDestroy(this)
-        //     .subscribe(
-        //     event => {
-        //         if (event instanceof NavigationStart) {
-        //         } else if (event instanceof NavigationEnd) {
+        this._router.events
+            .cancelOnDestroy(this)
+            .subscribe(
+            event => {
+                if (event instanceof NavigationStart) {
+                } else if (event instanceof NavigationEnd) {
 
-        //             // we must defer the loadCategory to the next event cycle loop to allow components
-        //             // to init them-selves when entering this module directly.
-        //             setTimeout(() => {
-        //                 const currentCategoryId = this._categoryRoute.snapshot.params.id;
-        //                 if (currentCategoryId === "new") {
-        //                     if (this._categoriesStore && this._categoriesStore.getNewCategoryData()) {
-        //                         const parentId = this._categoriesStore.getNewCategoryData().parentCategoryId;
-        //                         this._loadCategory(parentId);
+                    // we must defer the loadEntry to the next event cycle loop to allow components
+                    // to init them-selves when entering this module directly.
+                    setTimeout(() => {
+                        const currentEntryId = this._route.snapshot.params.id;
+                        // const entry = this._metaList.getValue();
+                        // if (!entry || (entry && entry.id !== currentEntryId)) {
+                        //     this._loadEntry(currentEntryId);
+                        // }
+
+                        if (!this._mediaTypeId || (this._mediaTypeId !== currentEntryId)) {
+                            this._loadEntry(currentEntryId);
+                        }
+                    });
+                }
+            }
+            )
+    }
+
+    private _transmitSaveRequest(metaList: KalturaMetaListResponse) {
+        this._state.next({ action: ActionTypes.Saving });
+
+        // const request = new KalturaMultiRequest(
+        //     new MetaUpdateAction({
+        //         entryId: this.entryId,
+        //         baseEntry: metaList
+        //     })
+        // );
+
+        // this._formManager.onDataSaving(metaList, request, this.entry)
+        //     .cancelOnDestroy(this)
+        //     .monitor('entry store: prepare entry for save')
+        //     .flatMap(
+        //     (response) => {
+        //         if (response.ready) {
+        //             this._saveMetaInvoked = true;
+
+        //             return this._kalturaServerClient.multiRequest(request)
+        //                 .monitor('entry store: save entry')
+        //                 .map(
+        //                 response => {
+        //                     if (response.hasErrors()) {
+        //                         this._state.next({ action: ActionTypes.SavingFailed });
+        //                     } else {
+        //                         this._loadEntry(this.entryId);
         //                     }
+
+        //                     return Observable.empty();
         //                 }
-        //                 else {
-        //                     const category = this._category.getValue();
-        //                     if (!category || (category && category.id !== currentCategoryId)) {
-        //                         this._loadCategory(currentCategoryId);
-        //                     }
-        //                 }
-        //             });
+        //                 )
+        //         } else {
+        //             switch (response.reason) {
+        //                 case OnDataSavingReasons.validationErrors:
+        //                     this._state.next({ action: ActionTypes.DataIsInvalid });
+        //                     break;
+        //                 case OnDataSavingReasons.attachedWidgetBusy:
+        //                     this._state.next({ action: ActionTypes.ActiveSectionBusy });
+        //                     break;
+        //                 case OnDataSavingReasons.buildRequestFailure:
+        //                     this._state.next({ action: ActionTypes.PrepareSavingFailed });
+        //                     break;
+        //             }
+
+        //             return Observable.empty();
         //         }
         //     }
         //     )
+        //     .subscribe(
+        //     response => {
+        //         // do nothing - the service state is modified inside the map functions.
+        //     },
+        //     error => {
+        //         // should not reach here, this is a fallback plan.
+        //         this._state.next({ action: ActionTypes.SavingFailed });
+        //     }
+        //     );
     }
+    public saveEntry(): void {
 
-    // private _transmitSaveRequest(newCategory: KalturaCategory) {
-    //     this._state.next({ action: ActionTypes.CategorySaving });
+        // const newEntry = KalturaTypesFactory.createObject(this.entry);
 
-    //     const request = new KalturaMultiRequest(
-    //         new CategoryUpdateAction({
-    //             id: this.categoryId,
-    //             category: newCategory
-    //         })
-    //     );
-
-    //     this._sectionsManager.onDataSaving(newCategory, request, this.category)
-    //         .cancelOnDestroy(this)
-    //         .monitor('category store: prepare category for save')
-    //         .flatMap(
-    //         (response) => {
-    //             if (response.ready) {
-    //                 this._saveCategoryInvoked = true;
-
-    //                 return this._kalturaServerClient.multiRequest(request)
-    //                     .monitor('category store: save category')
-    //                     .map(
-    //                     response => {
-    //                         if (response.hasErrors()) {
-    //                             this._state.next({ action: ActionTypes.CategorySavingFailed });
-    //                         } else {
-    //                             this._loadCategory(this.categoryId);
-    //                         }
-
-    //                         return Observable.empty();
-    //                     }
-    //                     )
-    //             }
-    //             else {
-    //                 switch (response.reason) {
-    //                     case OnDataSavingReasons.validationErrors:
-    //                         this._state.next({ action: ActionTypes.CategoryDataIsInvalid });
-    //                         break;
-    //                     case OnDataSavingReasons.attachedWidgetBusy:
-    //                         this._state.next({ action: ActionTypes.ActiveSectionBusy });
-    //                         break;
-    //                     case OnDataSavingReasons.buildRequestFailure:
-    //                         this._state.next({ action: ActionTypes.CategoryPrepareSavingFailed });
-    //                         break;
-    //                 }
-
-    //                 return Observable.empty();
-    //             }
-    //         }
-    //         )
-    //         .subscribe(
-    //         response => {
-    //             // do nothing - the service state is modified inside the map functions.
-    //         },
-    //         error => {
-    //             // should not reach here, this is a fallback plan.
-    //             this._state.next({ action: ActionTypes.CategorySavingFailed });
-    //         }
-    //         );
-    // }
-    public saveCategory(): void {
-
-        // const newCategory = KalturaTypesFactory.createObject(this.category);
-
-        // if (newCategory && newCategory instanceof KalturaCategory) {
-        //     this._transmitSaveRequest(newCategory)
+        // if (newEntry && newEntry instanceof KalturaMetaListResponse) {
+        //     this._transmitSaveRequest(newEntry)
         // } else {
-        //     console.error(new Error(`Failed to create a new instance of the category type '${this.category ? typeof this.category : 'n/a'}`));
-        //     this._state.next({ action: ActionTypes.CategoryPrepareSavingFailed });
+        //     console.error(new Error(`Failed to create a new instance of the entry type '${this.entry ? typeof this.entry : 'n/a'}`));
+        //     this._state.next({ action: ActionTypes.PrepareSavingFailed });
         // }
     }
 
-    public reloadCategory(): void {
-        if (this.categoryId) {
-            this._loadCategory(this.categoryId);
+    public reloadEntry(): void {
+        if (this._mediaTypeId) {
+            this._loadEntry(this._mediaTypeId);
         }
     }
 
-    private _loadCategory(categoryId: number): void {
-        // if (this._loadCategorySubscription) {
-        //     this._loadCategorySubscription.unsubscribe();
-        //     this._loadCategorySubscription = null;
+    private _loadEntry(entryId: string): void {
+        // if (this._loadMetaSubscription) {
+        //     this._loadMetaSubscription.unsubscribe();
+        //     this._loadMetaSubscription = null;
         // }
 
-        // this._categoryId = categoryId;
-        // this._categoryIsDirty = false;
+        // this._entryId = entryId;
+        // this._metaIsDirty = false;
         // this._updatePageExitVerification();
 
-        // this._state.next({ action: ActionTypes.CategoryLoading });
-        // this._sectionsManager.onDataLoading(categoryId);
+        // this._state.next({ action: ActionTypes.Loading });
+        // this._formManager.onDataLoading(entryId);
 
-        // this._loadCategorySubscription = this._getCategory(categoryId)
+        // this._loadMetaSubscription = this._getEntry(entryId)
         //     .cancelOnDestroy(this)
         //     .subscribe(
         //     response => {
 
-        //         this._category.next(response);
-        //         this._categoryId = response.id;
+        //         this._metaList.next(response);
+        //         this._entryId = response.id;
 
-        //         const dataLoadedResult = this._sectionsManager.onDataLoaded(response);
+        //         const dataLoadedResult = this._formManager.onDataLoaded(response);
 
         //         if (dataLoadedResult.errors.length) {
         //             this._state.next({
-        //                 action: ActionTypes.CategoryLoadingFailed,
+        //                 action: ActionTypes.LoadingFailed,
         //                 error: new Error(`one of the widgets failed while handling data loaded event`)
         //             });
         //         } else {
-        //             this._state.next({ action: ActionTypes.CategoryLoaded });
+        //             this._state.next({ action: ActionTypes.Loaded });
         //         }
         //     },
         //     error => {
-        //         this._state.next({ action: ActionTypes.CategoryLoadingFailed, error });
+        //         this._state.next({ action: ActionTypes.LoadingFailed, error });
 
         //     }
         //     );
@@ -282,57 +278,66 @@ export class MediaAssetTypeService implements OnDestroy {
         const navigatePath = this._sectionToRouteMapping[sectionKey];
 
         if (navigatePath) {
-            this._router.navigate([navigatePath], { relativeTo: this._categoryRoute });
+            this._router.navigate([navigatePath], { relativeTo: this._route });
         }
     }
 
-    // private _getCategory(id: number): Observable<KalturaCategory> {
-    //     if (id) {
-    //         return this._kalturaServerClient.request(new CategoryGetAction({ id }));
-    //     } else {
-    //         return Observable.throw(new Error('missing category ID'));
-    //     }
-    // }
-
-    public openCategory(categoryId: number) {
-        // this.canLeave()
-        //     .cancelOnDestroy(this)
-        //     .subscribe(
-        //     response => {
-        //         if (response.allowed) {
-        //             this._router.navigate(["category", categoryId], { relativeTo: this._categoryRoute.parent });
+    private _getEntry(entryId: string): Observable<KalturaMetaListResponse> {
+        // if (entryId) {
+        //     return this._kalturaServerClient.request(
+        //         new BaseEntryGetAction({ entryId })
+        //     ).map(response => {
+        //         if (response instanceof KalturaMetaListResponse) {
+        //             return response;
+        //         } else {
+        //             throw new Error(`invalid type provided, expected KalturaMetaListResponse, got ${typeof response}`);
         //         }
-        //     }
-        //     );
+        //     });
+        // } else {
+        //     return Observable.throw(new Error('missing entryId'));
+        // }
+        return null;
     }
 
-    // public canLeave(): Observable<{ allowed: boolean }> {
-    //     return Observable.create(observer => {
-    //         if (this._categoryIsDirty) {
-    //             this._browserService.confirm(
-    //                 {
-    //                     header: this._appLocalization.get('applications.content.categoryDetails.cancelEdit'),
-    //                     message: this._appLocalization.get('applications.content.categoryDetails.discard'),
-    //                     accept: () => {
-    //                         observer.next({ allowed: true });
-    //                         observer.complete();
-    //                     },
-    //                     reject: () => {
-    //                         observer.next({ allowed: false });
-    //                         observer.complete();
-    //                     }
-    //                 }
-    //             )
-    //         } else {
-    //             observer.next({ allowed: true });
-    //             observer.complete();
-    //         }
-    //     }).monitor('category store: check if can leave section without saving');
-    // }
+    public openEntry(assetTypeId: string) {
+        this.canLeave()
+            .cancelOnDestroy(this)
+            .subscribe(
+            response => {
+                if (response.allowed) {
+                    this._router.navigate(['mediaAssetsType', assetTypeId], { relativeTo: this._route.parent });
+                }
+            }
+            );
+    }
+
+    public canLeave(): Observable<{ allowed: boolean }> {
+        return Observable.create(observer => {
+            if (this._metaIsDirty) {
+                this._browserService.confirm(
+                    {
+                        header: this._appLocalization.get('applications.content.entryDetails.captions.cancelEdit'),
+                        message: this._appLocalization.get('applications.content.entryDetails.captions.discard'),
+                        accept: () => {
+                            this._metaIsDirty = false;
+                            observer.next({ allowed: true });
+                            observer.complete();
+                        },
+                        reject: () => {
+                            observer.next({ allowed: false });
+                            observer.complete();
+                        }
+                    }
+                )
+            } else {
+                observer.next({ allowed: true });
+                observer.complete();
+            }
+        }).monitor('entry store: check if can leave section without saving');
+    }
 
     public returnToAssetTypes(params: { force?: boolean } = {}) {
-        this._router.navigate(['content/categories']);
+        this._router.navigate(['content/entries']);
     }
 
 }
-
