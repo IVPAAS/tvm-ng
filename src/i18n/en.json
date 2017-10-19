@@ -57,7 +57,14 @@
         "metadata":"Metadata",
         "publishing":"Publishing",
         "playback":"Playback",
-        "images":"Images"
+        "images":"Images",
+      "mediaAssetType": {
+        "movie": "Movie",
+        "episodes": "Episodes",
+        "series": "Series"
+      },
+      "templateType": {
+        "mediaAssets": "Media Assets"
       }
     },
     "table": {
