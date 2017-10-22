@@ -6,8 +6,8 @@ export const AssetTypeSectionsList = [
         key: AssetTypeWidgetKeys.Metadata
     },
     {
-        label: 'applications.settings.sections.publishing',
-        key: AssetTypeWidgetKeys.Publishing
+        label: 'applications.settings.sections.availability',
+        key: AssetTypeWidgetKeys.Availability
     },
     {
         label: 'applications.settings.sections.playback',
