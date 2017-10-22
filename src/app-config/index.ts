@@ -94,7 +94,7 @@ export const environment = {
         "children": [
           {
             "routePath": "settings/metadataTemplates",
-            "titleToken": "Metadata Templates",
+            "titleToken": "MetadataTemplates",
             "enabled": true, 
             "icon": "kIconbulk"
           }

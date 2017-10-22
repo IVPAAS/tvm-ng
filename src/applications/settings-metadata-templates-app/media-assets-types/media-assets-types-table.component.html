@@ -9,13 +9,13 @@
       </p-column>
 
 
-      <p-column field="name" [header]="'applications.table.name' | translate" [style]="{'width':'100px'}">
+      <p-column field="name" [header]="'applications.settings.table.name' | translate" [style]="{'width':'100px'}">
         <ng-template let-col let-row="rowData" pTemplate="body">
           <span [kTooltip]="row.Name" class="kTitle"  (click)="onActionSelected('edit',row.id)">
               {{row[col.field]}}</span>
         </ng-template>
       </p-column>
-      <p-column field="type" [header]="'applications.table.type' | translate"  [sortable]="false" [style]="{'width':'50px'}">
+      <p-column field="type" [header]="'applications.settings.table.type' | translate"  [sortable]="false" [style]="{'width':'50px'}">
         <ng-template let-col let-row="rowData" pTemplate="body">
             <span>{{row[col.field] | templateType: false}}</span>          
         </ng-template>
@@ -23,8 +23,8 @@
 
 
 
-      <p-column field="id" [header]="'applications.table.id' | translate" [sortable]="false" [style]="{'width':'50px'}"></p-column>
-      <p-column field="lastModified" [header]="'applications.table.lastModified' | translate" [sortable]="false" [style]="{'width':'140px'}">
+      <p-column field="id" [header]="'applications.settings.table.id' | translate" [sortable]="false" [style]="{'width':'50px'}"></p-column>
+      <p-column field="lastModified" [header]="'applications.settings.table.lastModified' | translate" [sortable]="false" [style]="{'width':'140px'}">
         <ng-template let-col let-row="rowData" pTemplate="body">
           <span>{{row[col.field] | kDate}}</span>
         </ng-template>

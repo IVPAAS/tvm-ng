@@ -18,7 +18,7 @@
       "VOD": "VOD",
       "Collection": "Collection",
       "Settings": "Settings",
-      "Metadata Templates": "Metadata Templates"
+      "MetadataTemplates": "Metadata Templates"
     },
     "userSettings": {
       "changeAccount": "Change Acoount",
@@ -62,10 +62,10 @@
           "movie": "Movie",
           "episodes": "Episodes",
           "series": "Series"
-        },
-        "templateType": {
-          "mediaAssets": "Media Assets"
         }
+      },
+      "templateType": {
+        "mediaAssets": "Media Assets"
       },
       "table": {
         "name": "Name",
