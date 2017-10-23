@@ -1,30 +1,29 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { AppLocalization } from '@kaltura-ng/kaltura-common';
-import { MediaAssetType } from "applications/settings-metadata-templates-app/media-assets-types/media-assets-types.service";
 
-@Pipe({name: 'mediaAssetType'})
+@Pipe({ name: 'kMediaAssetType' })
 export class MediaAssetTypePipe implements PipeTransform {
 
 	constructor(private appLocalization: AppLocalization) {
 	}
 
-	transform(value, isTooltip: boolean): string {
+	transform(value: string, isTooltip: boolean): string {
 		let className = "";
 		let tooltip = "";
-		if (typeof(value) !== 'undefined' && value !== null) {
+		if (typeof (value) !== 'undefined' && value !== null) {
 			switch (value) {
-				case MediaAssetType.Movie:
+				case "Movie":
 					className = 'kIconvideo';
 					tooltip = this.appLocalization.get("applications.settings.mediaAssetType.movie");
 					break;
-				case MediaAssetType.Episodes:
+				case "Episode":
 					tooltip = this.appLocalization.get("applications.settings.mediaAssetType.episodes");
 					className = 'kIconimage';
 					break;
-				case MediaAssetType.Series:
+				case "Series":
 					tooltip = this.appLocalization.get("applications.settings.mediaAssetType.series");
 					className = 'kIconsound';
-					break;				
+					break;
 				default:
 					break;
 			}

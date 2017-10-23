@@ -10,8 +10,6 @@ import { AppLocalization } from '@kaltura-ng/kaltura-common';
 import { AreaBlockerMessage } from '@kaltura-ng/kaltura-ui';
 import { MediaAssetTypeFormWidget } from 'applications/settings-metadata-templates-app/media-assets-type/media-asset-type-form-widget';
 import { BrowserService } from 'app-shared/mc-shell';
-// import { CategoriesService } from "./categories.service";
-
 
 @Component({
     selector: 'kMediaAssetsType',

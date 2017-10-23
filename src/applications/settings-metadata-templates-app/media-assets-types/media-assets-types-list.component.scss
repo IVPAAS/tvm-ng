@@ -1,8 +1,7 @@
 @import 'app-theme/_variables.scss';
-.kCategories {
+.kMediaTypes {
   font-size: 15px;
   background-color: $appBkgColor;
-  height: $contentArea;
   padding-top: 30px;
   width: 100%;
   min-width: $minAppWidth;
@@ -10,21 +9,20 @@
   display: flex;
   flex-flow: row wrap;
   margin: 0px;
-  .kCategoriesHolder {
+  .kMediaTypesHolder {
     height: 100%;
     border: none;
     position: relative;
     display: flex;
     flex-direction: column;
   }
-  .kTitle{
+  .kTitle {
     color: $kGrayscale1;
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 28px;
   }
-  
-  .kCategoriesTableFilters {
+  .kMediaTypesTableFilters {
     color: $kGrayscale1;
     width: 100%;
     height: 66px;
@@ -36,18 +34,18 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     display: flex;
-    .kSelectedCategoriesNum {
+    .kSelectedMediaTypesNum {
       padding-left: 16px;
     }
   }
-  .kCategoriesTableTags {
+  .kMediaTypesTableTags {
     width: 100%;
     height: 50px;
     background-color: #f3f3f3;
     border: 1px solid grey;
     flex: 0 0 50px;
   }
-  .kCategoriesTableFooter {
+  .kMediaTypesTableFooter {
     width: 100%;
     height: 34px;
     background-color: white;
@@ -58,13 +56,13 @@
     padding: 0 14px 28px;
     display: block;
   }
-  .kCategoriesTable {
+  .kMediaTypesTable {
     border: none;
     position: relative;
     background-color: white;
     flex: 1 1 auto;
   }
-  .kSelectedCategoriesLabel {
+  .kSelectedMediaTypesLabel {
     font-weight: bold;
     margin-right: 36px;
     margin-left: 5px;
@@ -92,7 +90,7 @@
   .kAddCategoryBtn {
     margin-left: 14px;
     height: 36px;
-  } 
+  }
   .kBulkCancel {
     margin-left: 10px;
   }
@@ -109,7 +107,7 @@
     display: flex;
     margin-left: auto;
   }
-  .kCategoriesFilter {
+  .kMediaTypesFilter {
     border: 1px solid $kGrayscale4;
     border-radius: 4px;
     display: flex;
@@ -145,7 +143,7 @@
     }
   }
   .kRefine {
-    @extend .kCategoriesFilter;
+    @extend .kMediaTypesFilter;
     width: 140px;
   }
   .kHidden {

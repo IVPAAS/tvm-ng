@@ -64,6 +64,9 @@
           "series": "Series"
         }
       },
+      "isProtected": {
+        "basic": "Basic"
+      },
       "templateType": {
         "mediaAssets": "Media Assets"
       },

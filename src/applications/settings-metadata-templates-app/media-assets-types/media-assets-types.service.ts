@@ -1,33 +1,17 @@
-// import { KalturaCategoryFilter } from 'kaltura-typescript-client/types/KalturaCategoryFilter';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ISubscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Observable';
 import { BrowserService } from "app-shared/mc-shell";
 import 'rxjs/add/operator/map';
-// import { KalturaDetachedResponseProfile } from 'kaltura-typescript-client/types/KalturaDetachedResponseProfile';
-// import { KalturaFilterPager } from 'kaltura-typescript-client/types/KalturaFilterPager';
-// import { KalturaResponseProfileType } from 'kaltura-typescript-client/types/KalturaResponseProfileType';
-// import { CategoryListAction } from 'kaltura-typescript-client/types/CategoryListAction';
-// import { KalturaClient } from '@kaltura-ng/kaltura-client';
-// import { KalturaCategoryListResponse } from "kaltura-typescript-client/types/KalturaCategoryListResponse";
-// import { KalturaCategory } from "kaltura-typescript-client/types/KalturaCategory";
+import { AssetStructListAction } from 'kaltura-ott-typescript-client/types/assetstructListAction';
+import { KalturaClient } from '@kaltura-ng/kaltura-ott-client';
+import { KalturaAssetStructFilter } from "kaltura-ott-typescript-client/types/KalturaAssetStructFilter";
+import { KalturaAssetStructListResponse } from "kaltura-ott-typescript-client/types/KalturaAssetStructListResponse";
+import { KalturaAssetStruct } from "kaltura-ott-typescript-client/types/KalturaAssetStruct";
 
 export interface MediaAssetsTypes {
-    items: MediaAssetsType[],
-    totalCount: number
-}
-
-export interface MediaAssetsType {
-    id: number,
-    name: string,
-    type: TemplateType,
-    lastModified?: Date,
-    assetType: MediaAssetType
-}
-
-export interface KalturaCategoryListResponse {
-    objects: MediaAssetsType[],
+    items: KalturaAssetStruct[],
     totalCount: number
 }
 
@@ -35,17 +19,10 @@ export enum TemplateType {
     MediaAssets = 0
 }
 
-export enum MediaAssetType {
-    Movie = 0,
-    Episodes = 1,
-    Series = 2
-}
-
 export type UpdateStatus = {
     loading: boolean;
     errorMessage: string;
 };
-
 
 export interface QueryData {
     pageIndex: number,
@@ -53,6 +30,10 @@ export interface QueryData {
     fields: string
 }
 
+export enum SortDirection {
+    Desc,
+    Asc
+}
 
 @Injectable()
 export class MediaAssetsTypesService implements OnDestroy {
@@ -70,7 +51,8 @@ export class MediaAssetsTypesService implements OnDestroy {
     public _mediaAssetsTypes$ = this._mediaAssetsTypes.asObservable();
     public queryData$ = this._queryData.asObservable();
 
-    constructor(private browserService: BrowserService) {
+    constructor(private _kalturaClient: KalturaClient,
+        private browserService: BrowserService) {
         this.reload(false);
     }
 
@@ -103,13 +85,47 @@ export class MediaAssetsTypesService implements OnDestroy {
     }
 
     private _executeQuery(): void {
+        // cancel previous requests
+        if (this._mediaAssetsTypesExecuteSubscription) {
+            this._mediaAssetsTypesExecuteSubscription.unsubscribe();
+        }
 
+        this._state.next({ loading: true, errorMessage: null });
 
-        let categoryListResponse: KalturaCategoryListResponse;
-        this._mediaAssetsTypes.getValue().items = [{ id: 1, name: "Movies", type: TemplateType.MediaAssets, assetType: MediaAssetType.Movie },
-        { id: 2, name: "Episodes", type: TemplateType.MediaAssets, assetType: MediaAssetType.Episodes },
-        { id: 3, name: "Series", type: TemplateType.MediaAssets, assetType: MediaAssetType.Series }]
-        this._mediaAssetsTypes.getValue().totalCount = 3;
+        // execute the request
+        this._mediaAssetsTypesExecuteSubscription = this.buildQueryRequest(this._queryData.getValue()).subscribe(
+            response => {
+                this._mediaAssetsTypesExecuteSubscription = null;
+
+                this._state.next({ loading: false, errorMessage: null });
+
+                this._mediaAssetsTypes.next({
+                    items: response.objects,
+                    totalCount: <number>response.totalCount
+                });
+            },
+            error => {
+                this._mediaAssetsTypesExecuteSubscription = null;
+                const errorMessage = error & error.message ? error.message : typeof error === 'string' ? error : 'invalid error';
+                this._state.next({ loading: false, errorMessage });
+            });
+    }
+
+    private buildQueryRequest(queryData: QueryData): Observable<KalturaAssetStructListResponse> {
+        try {
+            let filter: KalturaAssetStructFilter = new KalturaAssetStructFilter({});
+            filter.metaIdsContains = "4";
+
+            // build the request
+            return <any>this._kalturaClient.request(
+                new AssetStructListAction({
+                    filter
+                })
+            )
+        } catch (err) {
+            return Observable.throw(err);
+        }
+
     }
 }
 

@@ -1,10 +1,18 @@
-import { MediaAssetsType, MediaAssetsTypesService } from './media-assets-types.service';
+import { KalturaAssetStruct } from 'kaltura-ott-typescript-client/types/KalturaAssetStruct';
+import { MediaAssetsTypesService } from './media-assets-types.service';
 import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ISubscription } from 'rxjs/Subscription';
 import { DataTable } from 'primeng/primeng';
 import { AppLocalization } from '@kaltura-ng/kaltura-common';
 import { AreaBlockerMessage } from '@kaltura-ng/kaltura-ui';
-//import { CategoriesService } from "./categories.service";
+
+export interface TableColumns {
+	[key: string]: {
+		width?: string;
+		align?: string;
+		sortable?: boolean;
+	}
+}
 
 
 @Component({
@@ -16,7 +24,7 @@ export class MediaAssetsTypesTableComponent implements AfterViewInit, OnInit, On
 
 	public _blockerMessage: AreaBlockerMessage = null;
 
-	public _mediaAssetsTypes: MediaAssetsType[] = [];
+	public _mediaAssetsTypes: KalturaAssetStruct[] = [];
 	private _deferredMediaAssetsTypes: any[];
 	@Input() set mediaAssetsTypes(data: any[]) {
 		if (!this._deferredLoading) {
@@ -34,12 +42,22 @@ export class MediaAssetsTypesTableComponent implements AfterViewInit, OnInit, On
 	@Output() actionSelected = new EventEmitter<any>();
 
 	@ViewChild('dataTable') private _dataTable: DataTable;
-	private _categoriesServiceStatusSubscription: ISubscription;
+	private _MediaTypesServiceStatusSubscription: ISubscription;
 
 	public _deferredLoading = true;
 	public _emptyMessage: string = "";
+	@Input() filter: any = {};
 
 	public rowTrackBy: Function = (index: number, item: any) => { return item.id };
+
+	public _columns: TableColumns = {
+		updateDate: { sortable: true },
+		id: { width: '80px' },
+		type: { sortable: true, width: '140px' },
+		name: { sortable: true, width: '245px' },
+		assetType: { sortable: false, width: '44px', align: 'center' }
+	};
+
 
 	constructor(private appLocalization: AppLocalization,
 		public mediaAssetsTypesService: MediaAssetsTypesService,
@@ -50,7 +68,7 @@ export class MediaAssetsTypesTableComponent implements AfterViewInit, OnInit, On
 		this._blockerMessage = null;
 		this._emptyMessage = "";
 		let loadedOnce = false; // used to set the empty message to "no results" only after search
-		this._categoriesServiceStatusSubscription = this.mediaAssetsTypesService.state$.subscribe(
+		this._MediaTypesServiceStatusSubscription = this.mediaAssetsTypesService.state$.subscribe(
 			result => {
 				if (result.errorMessage) {
 					this._blockerMessage = new AreaBlockerMessage({
@@ -82,8 +100,8 @@ export class MediaAssetsTypesTableComponent implements AfterViewInit, OnInit, On
 	}
 
 	ngOnDestroy() {
-		this._categoriesServiceStatusSubscription.unsubscribe();
-		this._categoriesServiceStatusSubscription = null;
+		this._MediaTypesServiceStatusSubscription.unsubscribe();
+		this._MediaTypesServiceStatusSubscription = null;
 	}
 
 	ngAfterViewInit() {
@@ -101,4 +119,9 @@ export class MediaAssetsTypesTableComponent implements AfterViewInit, OnInit, On
 	onActionSelected(action: string, mediaAssetsTypeID: number) {
 		this.actionSelected.emit({ "action": action, "mediaAssetsTypeID": mediaAssetsTypeID });
 	}
+
+	public _getColumnStyle({ width = 'auto', align = 'left' } = {}): { 'width': string, 'text-align': string } {
+		return { 'width': width, 'text-align': align };
+	}
+
 }

@@ -1,32 +1,12 @@
-<!-- <k-area-blocker [showLoader]="_isBusy" [message]="_blockerMessage">
-  <div class="kmcDetailsLayout kOverrideFAIcons" [class.isSafari]="isSafari">
-    <div class="kContent kDetailsWrapper">
-      <div class="kDetailsHeader">
-        <div class="kTitle">{{'applications.settings.metadataTemplates.mediaAssetsTypes' | translate}}</div>
-        <span class="kSelectedCategoriesNum" *ngIf="_categoriesTotalCount">
-                {{_categoriesTotalCount}} {{'applications.content.categories.categories' | translate}}
-              </span>
-      </div>
-    </div>
-  </div>  
-</k-area-blocker> -->
-
-
 <k-area-blocker [showLoader]="_isBusy" [message]="_blockerMessage">
-  <div class="kCategories kOverrideFAIcons">
-    <!-- <div class="kContent kDetailsWrapper">
-      <div class="kDetailsHeader">
-        <div class="kTitle">{{'applications.settings.metadataTemplates.mediaAssetsTypes' | translate}}</div>
-      </div>
-    </div> -->
-    <div #categoriesTableHolder class="kCategoriesHolder kContent">
-      <div class="kCategoriesTableFilters">
-        <span class="kSelectedCategoriesNum" *ngIf="_categoriesTotalCount">
-                {{_categoriesTotalCount}} {{'applications.settings.metadataTemplates.items' | translate}}
+  <div class="kMediaTypes kOverrideFAIcons">
+    <div #MediaTypesTableHolder class="kMediaTypesHolder kContent">
+      <div class="kMediaTypesTableFilters">
+        <span class="kSelectedMediaTypesNum" *ngIf="_MediaTypesTotalCount">
+                {{_MediaTypesTotalCount}} {{'applications.settings.metadataTemplates.items' | translate}}
         </span>
       </div>
-      <kMediaAssetsTypesTable class="kCategoriesTable" [mediaAssetsTypes]="_categories"
-      (actionSelected)="_onActionSelected($event)">
+      <kMediaAssetsTypesTable class="kMediaTypesTable" [mediaAssetsTypes]="_MediaTypes" [filter]="_filter" (actionSelected)="_onActionSelected($event)">
       </kMediaAssetsTypesTable>
     </div>
   </div>

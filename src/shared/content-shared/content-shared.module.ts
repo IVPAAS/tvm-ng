@@ -2,22 +2,22 @@ import { KalturaCommonModule } from '@kaltura-ng/kaltura-common';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaAssetTypePipe } from "./pipes/media-asset-type.pipe";
-import { TemplateTypePipe } from "./pipes/template-type.pipe";
+import { UtcDatePipe } from "./pipes/utc-date.pipe";
 
 @NgModule({
-  imports: [    
+  imports: [
     //KalturaCommonModule,
-    CommonModule    
+    CommonModule
   ],
   declarations: [
     MediaAssetTypePipe,
-    TemplateTypePipe    
+    UtcDatePipe
   ],
   exports: [
     MediaAssetTypePipe,
-    TemplateTypePipe
+    UtcDatePipe
   ],
-  providers: [    
+  providers: [
   ]
 })
 export class ContentSharedModule {

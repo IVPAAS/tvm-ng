@@ -32,7 +32,8 @@ export const environment = {
   },
   "core": {
     "kaltura": {
-      "apiUrl": "http://34.249.122.223:8080/v4_4/api_v3",
+      //"apiUrl": "http://34.249.122.223:8080/v4_4/api_v3",
+      "apiUrl": "http://34.249.122.223:8080/NEW_TVM/api_v3"
     },
     "menuConfig": [
       {
@@ -50,14 +51,14 @@ export const environment = {
           {
             "routePath": "content/assets",
             "titleToken": "VOD",
-            "enabled": true, 
+            "enabled": true,
             "position": "left",
             "icon": "kIconbulk"
           },
           {
             "routePath": "content/collection",
             "titleToken": "Collection",
-            "enabled": false, 
+            "enabled": false,
             "position": "left",
             "icon": "kIconbulk"
           }
@@ -95,7 +96,7 @@ export const environment = {
           {
             "routePath": "settings/metadataTemplates",
             "titleToken": "MetadataTemplates",
-            "enabled": true, 
+            "enabled": true,
             "icon": "kIconbulk"
           }
         ]
