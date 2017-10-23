@@ -114,7 +114,7 @@ export class MediaAssetsTypesService implements OnDestroy {
     private buildQueryRequest(queryData: QueryData): Observable<KalturaAssetStructListResponse> {
         try {
             let filter: KalturaAssetStructFilter = new KalturaAssetStructFilter({});
-            filter.metaIdsContains = "4";
+            filter.isProtected = true;
 
             // build the request
             return <any>this._kalturaClient.request(
