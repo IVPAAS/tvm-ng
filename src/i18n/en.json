@@ -57,12 +57,13 @@
         "metadata": "Metadata",
         "availability": "Availability",
         "playback": "Playback",
-        "images": "Images",
-        "mediaAssetType": {
-          "movie": "Movie",
-          "episodes": "Episodes",
-          "series": "Series"
-        }
+        "images": "Images"
+      },
+
+      "mediaAssetType": {
+        "movie": "Movie",
+        "episodes": "Episodes",
+        "series": "Series"
       },
       "isProtected": {
         "basic": "Basic"
