@@ -13,7 +13,7 @@ import { PopupWidgetModule } from '@kaltura-ng/kaltura-ui/popup-widget';
 import { KMCShellModule } from 'app-shared/mc-shell';
 import { KalturaPrimeNgUIModule } from '@kaltura-ng/kaltura-primeng-ui';
 import { ContentSharedModule } from "app-shared/content-shared/content-shared.module";
-import { MediaAssetsTypeComponentsList } from "applications/settings-metadata-templates-app/media-assets-type/media-assets-type-components-list";
+import { MediaAssetsTypeComponentsList } from "./media-assets-type/media-asset-type-components-list";
 
 
 

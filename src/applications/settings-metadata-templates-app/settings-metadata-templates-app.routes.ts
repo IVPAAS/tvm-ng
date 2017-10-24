@@ -6,7 +6,7 @@ import { AssetTypeMetadataComponent } from './media-assets-type/asset-type-metad
 import { MediaAssetsTypesListComponent } from './media-assets-types/media-assets-types-list.component';
 import { Route } from '@angular/router';
 import { SettingsMetadataTemplatesComponent } from './settings-metadata-templates.component';
-import { MediaAssetsTypeComponent } from 'applications/settings-metadata-templates-app/media-assets-type/media-assets-type.component';
+import { MediaAssetTypeComponent } from './media-assets-type/media-asset-type.component';
 
 export const routing: Route[] = [
   {
@@ -15,7 +15,7 @@ export const routing: Route[] = [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', component: MediaAssetsTypesListComponent },
       {
-        path: 'mediaAssetsType/:id', component: MediaAssetsTypeComponent,
+        path: 'mediaAssetsType/:id', component: MediaAssetTypeComponent,
         data: {
           mediaTypeRoute: true
         },

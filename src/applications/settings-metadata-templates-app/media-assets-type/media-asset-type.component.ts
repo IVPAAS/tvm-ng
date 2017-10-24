@@ -8,13 +8,13 @@ import { ISubscription } from 'rxjs/Subscription';
 import { DataTable } from 'primeng/primeng';
 import { AppLocalization } from '@kaltura-ng/kaltura-common';
 import { AreaBlockerMessage } from '@kaltura-ng/kaltura-ui';
-import { MediaAssetTypeFormWidget } from 'applications/settings-metadata-templates-app/media-assets-type/media-asset-type-form-widget';
+import { MediaAssetTypeFormWidget } from './media-asset-type-form-widget';
 import { BrowserService } from 'app-shared/mc-shell';
 
 @Component({
     selector: 'kMediaAssetsType',
-    templateUrl: './media-assets-type.component.html',
-    styleUrls: ['./media-assets-type.component.scss'],
+    templateUrl: './media-asset-type.component.html',
+    styleUrls: ['./media-asset-type.component.scss'],
     providers: [
         AssetTypeService,
         AssetTypeFormManager,
@@ -30,7 +30,7 @@ import { BrowserService } from 'app-shared/mc-shell';
         }
     ]
 })
-export class MediaAssetsTypeComponent implements OnInit, OnDestroy {
+export class MediaAssetTypeComponent implements OnInit, OnDestroy {
 
     public _showLoader = false;
     public _structHeader: string;

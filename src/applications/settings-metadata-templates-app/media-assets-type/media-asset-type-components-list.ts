@@ -4,10 +4,10 @@ import { AssetTypeImagesComponent } from './asset-type-images/asset-type-images.
 import { AssetTypeAvailabilityComponent } from './asset-type-availability/asset-type-availability.component';
 import { AssetTypePlaybackComponent } from './asset-type-playback/asset-type-playback.component';
 import { AssetTypeMetadataComponent } from './asset-type-metadata/asset-type-metadata.component';
-import { MediaAssetsTypeComponent } from 'applications/settings-metadata-templates-app/media-assets-type/media-assets-type.component';
+import { MediaAssetTypeComponent } from './media-asset-type.component';
 
 export const MediaAssetsTypeComponentsList = [
-    MediaAssetsTypeComponent,
+    MediaAssetTypeComponent,
     AssetTypeMetadataComponent,
     AssetTypePlaybackComponent,
     AssetTypeImagesComponent,
