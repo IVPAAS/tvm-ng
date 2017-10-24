@@ -4,11 +4,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AppLocalization } from '@kaltura-ng/kaltura-common';
 import { AssetTypeSectionsList } from './asset-type-sections-list';
 import { AssetTypeWidgetKeys } from '../media-asset-type-widget-keys';
-// import { KalturaMediaType } from 'kaltura-typescript-client/types/KalturaMediaType';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { MediaAssetTypeFormWidget } from '../media-asset-type-form-widget';
 import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/KalturaMetaListResponse';
-// import { KalturaExternalMediaEntry } from 'kaltura-typescript-client/types/KalturaExternalMediaEntry';
+
 
 export interface SectionWidgetItem {
     label: string,

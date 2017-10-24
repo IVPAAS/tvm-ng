@@ -58,19 +58,19 @@
       margin-top: 14px;
       color: #999999;
     }
-    .kTypeMetadataMain {
+    .kDetailsMain {
       display: flex;
       flex-direction: row;
       height: 100%;
       min-height: 0;
-      .kTypeMetadataSections {
+      .kSections {
         overflow-y: auto;
         width: 176px;
         background-color: #ffffff;
         border-top-left-radius: 3px;
         flex: 0 0 auto;
       }
-      .kTypeMetadataContent {
+      .kDetailsContent {
         overflow-y: hidden;
         background-color: #ffffff;
         border-top-right-radius: 3px;

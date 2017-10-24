@@ -7,6 +7,7 @@ import { AssetTypeService } from './media-asset-type.service';
 
 @Injectable()
 export class AssetTypeFormManager extends FormManager<KalturaMetaListResponse, KalturaMultiRequest> {
+    
     private _mediaAssetTypeService: AssetTypeService;
 
     constructor() {

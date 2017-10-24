@@ -4,7 +4,7 @@ import { SectionWidgetItem, AssetTypeSectionsListHandler } from './asset-type-se
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'k-asset-type-sections-list',
+  selector: 'kAssetTypeSectionsList',
   templateUrl: './asset-type-sections-list.component.html',
   styleUrls: ['./asset-type-sections-list.component.scss']
 })
