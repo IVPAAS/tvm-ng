@@ -59,7 +59,19 @@
         "playback": "Playback",
         "images": "Images"
       },
-
+      "MediaAssetTypeDetails": {
+        "sections": {
+          "metadata": "Metadata"
+        },
+        "captions": {
+          "cancelEdit": "Cancel Edit",
+          "discard": "Discard all changes?"
+        },
+        "errors": {
+          "reload": "Reload",
+          "dismiss": "Dismiss"
+        }
+      },
       "mediaAssetType": {
         "movie": "Movie",
         "episodes": "Episodes",

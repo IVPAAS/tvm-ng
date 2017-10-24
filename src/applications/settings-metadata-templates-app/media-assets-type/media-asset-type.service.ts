@@ -17,6 +17,8 @@ import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/Kal
 import { MetaListAction } from 'kaltura-ott-typescript-client/types/MetaListAction';
 import { MetaUpdateAction } from 'kaltura-ott-typescript-client/types/MetaUpdateAction';
 import { KalturaTypesFactory, KalturaMultiRequest } from 'kaltura-ott-typescript-client';
+import { KalturaMetaFilter } from "kaltura-ott-typescript-client/types/KalturaMetaFilter";
+import { KalturaMeta } from "kaltura-ott-typescript-client/types/KalturaMeta";
 
 export enum ActionTypes {
     Loading,
@@ -49,23 +51,21 @@ export class AssetTypeService implements OnDestroy {
     }
 
     private _saveMetaInvoked = false;
-    private _metaList: BehaviorSubject<KalturaMetaListResponse> = new BehaviorSubject<KalturaMetaListResponse>(null);
-    public metaList$ = this._metaList.asObservable();
-    private _metasIds: string[];
-    public _mediaTypeId: string;
-
-    public get metaIds(): string[] {
-        return this._metasIds;
+    private _metaListResponse: BehaviorSubject<KalturaMetaListResponse> = new BehaviorSubject<KalturaMetaListResponse>(null);
+    public metaListResponse$ = this._metaListResponse.asObservable();
+    public _mediaTypeId: number;
+    public get mediaTypeId(): number {
+        return this._mediaTypeId;
     }
 
-    public get metaList(): KalturaMetaListResponse {
-        return this._metaList.getValue();
+    public get metaListResponse(): KalturaMetaListResponse {
+        return this._metaListResponse.getValue();
     }
 
     constructor(private _kalturaServerClient: KalturaClient,
         private _router: Router,
         private _browserService: BrowserService,
-        private _assetTypeListService: MediaAssetsTypesService,
+        private _mediaAssetsTypesService: MediaAssetsTypesService,
         @Host() private _formManager: AssetTypeFormManager,
         private _route: ActivatedRoute,
         private _appLocalization: AppLocalization) {
@@ -110,12 +110,12 @@ export class AssetTypeService implements OnDestroy {
         }
 
         this._state.complete();
-        this._metaList.complete();
+        this._metaListResponse.complete();
 
         this._browserService.disablePageExitVerification();
 
         if (this._saveMetaInvoked) {
-            this._assetTypeListService.reload(true);
+            this._mediaAssetsTypesService.reload(true);
         }
     }
 
@@ -144,14 +144,14 @@ export class AssetTypeService implements OnDestroy {
                     // we must defer the loadEntry to the next event cycle loop to allow components
                     // to init them-selves when entering this module directly.
                     setTimeout(() => {
-                        const currentEntryId = this._route.snapshot.params.id;
-                        // const entry = this._metaList.getValue();
-                        // if (!entry || (entry && entry.id !== currentEntryId)) {
-                        //     this._loadEntry(currentEntryId);
-                        // }
+                        const currentMediaTypeId = this._route.snapshot.params.id;
+                        const metaListResponse = this._metaListResponse.getValue();
+                        if (!metaListResponse || (metaListResponse && this._mediaTypeId !== currentMediaTypeId)) {
+                            this._loadMediaAssetType(currentMediaTypeId);
+                        }
 
-                        if (!this._mediaTypeId || (this._mediaTypeId !== currentEntryId)) {
-                            this._loadEntry(currentEntryId);
+                        if (!this._mediaTypeId || (this._mediaTypeId !== currentMediaTypeId)) {
+                            this._loadMediaAssetType(currentMediaTypeId);
                         }
                     });
                 }
@@ -229,49 +229,49 @@ export class AssetTypeService implements OnDestroy {
         // }
     }
 
-    public reloadEntry(): void {
+    public reloadMediaAssetType(): void {
         if (this._mediaTypeId) {
-            this._loadEntry(this._mediaTypeId);
+            this._loadMediaAssetType(this._mediaTypeId);
         }
     }
 
-    private _loadEntry(entryId: string): void {
-        // if (this._loadMetaSubscription) {
-        //     this._loadMetaSubscription.unsubscribe();
-        //     this._loadMetaSubscription = null;
-        // }
+    private _loadMediaAssetType(mediaAssetTypeId: number): void {
+        if (this._loadMetaSubscription) {
+            this._loadMetaSubscription.unsubscribe();
+            this._loadMetaSubscription = null;
+        }
 
-        // this._entryId = entryId;
-        // this._metaIsDirty = false;
-        // this._updatePageExitVerification();
+        this._mediaTypeId = mediaAssetTypeId;
+        this._metaIsDirty = false;
+        this._updatePageExitVerification();
 
-        // this._state.next({ action: ActionTypes.Loading });
-        // this._formManager.onDataLoading(entryId);
+        this._state.next({ action: ActionTypes.Loading });
+        this._formManager.onDataLoading(mediaAssetTypeId);
 
-        // this._loadMetaSubscription = this._getEntry(entryId)
-        //     .cancelOnDestroy(this)
-        //     .subscribe(
-        //     response => {
+        this._loadMetaSubscription = this._getMediaAssetType(mediaAssetTypeId)
+            .cancelOnDestroy(this)
+            .subscribe(
+            response => {
 
-        //         this._metaList.next(response);
-        //         this._entryId = response.id;
+                this._metaListResponse.next(response);
+                this._mediaTypeId = mediaAssetTypeId;
 
-        //         const dataLoadedResult = this._formManager.onDataLoaded(response);
+                const dataLoadedResult = this._formManager.onDataLoaded(response);
 
-        //         if (dataLoadedResult.errors.length) {
-        //             this._state.next({
-        //                 action: ActionTypes.LoadingFailed,
-        //                 error: new Error(`one of the widgets failed while handling data loaded event`)
-        //             });
-        //         } else {
-        //             this._state.next({ action: ActionTypes.Loaded });
-        //         }
-        //     },
-        //     error => {
-        //         this._state.next({ action: ActionTypes.LoadingFailed, error });
+                if (dataLoadedResult.errors.length) {
+                    this._state.next({
+                        action: ActionTypes.LoadingFailed,
+                        error: new Error(`one of the widgets failed while handling data loaded event`)
+                    });
+                } else {
+                    this._state.next({ action: ActionTypes.Loaded });
+                }
+            },
+            error => {
+                this._state.next({ action: ActionTypes.LoadingFailed, error });
 
-        //     }
-        //     );
+            }
+            );
     }
 
     public openSection(sectionKey: string): void {
@@ -282,24 +282,26 @@ export class AssetTypeService implements OnDestroy {
         }
     }
 
-    private _getEntry(entryId: string): Observable<KalturaMetaListResponse> {
-        // if (entryId) {
-        //     return this._kalturaServerClient.request(
-        //         new BaseEntryGetAction({ entryId })
-        //     ).map(response => {
-        //         if (response instanceof KalturaMetaListResponse) {
-        //             return response;
-        //         } else {
-        //             throw new Error(`invalid type provided, expected KalturaMetaListResponse, got ${typeof response}`);
-        //         }
-        //     });
-        // } else {
-        //     return Observable.throw(new Error('missing entryId'));
-        // }
-        return null;
+    private _getMediaAssetType(mediaAssetTypeId: number): Observable<KalturaMetaListResponse> {
+        if (mediaAssetTypeId) {
+            let filter: KalturaMetaFilter = new KalturaMetaFilter({});
+            filter.assetStructIdEqual = mediaAssetTypeId;
+
+            return this._kalturaServerClient.request(
+                new MetaListAction({ filter })
+            ).map(response => {
+                if (response instanceof KalturaMetaListResponse) {
+                    return response;
+                } else {
+                    throw new Error(`invalid type provided, expected KalturaMetaListResponse, got ${typeof response}`);
+                }
+            });
+        } else {
+            return Observable.throw(new Error('missing mediaAssetTypeId'));
+        }
     }
 
-    public openEntry(assetTypeId: string) {
+    public openMediaAssetType(assetTypeId: string) {
         this.canLeave()
             .cancelOnDestroy(this)
             .subscribe(
@@ -316,8 +318,8 @@ export class AssetTypeService implements OnDestroy {
             if (this._metaIsDirty) {
                 this._browserService.confirm(
                     {
-                        header: this._appLocalization.get('applications.content.entryDetails.captions.cancelEdit'),
-                        message: this._appLocalization.get('applications.content.entryDetails.captions.discard'),
+                        header: this._appLocalization.get('applications.content.MediaAssetTypeDetails.captions.cancelEdit'),
+                        message: this._appLocalization.get('applications.content.MediaAssetTypeDetails.captions.discard'),
                         accept: () => {
                             this._metaIsDirty = false;
                             observer.next({ allowed: true });
@@ -333,11 +335,11 @@ export class AssetTypeService implements OnDestroy {
                 observer.next({ allowed: true });
                 observer.complete();
             }
-        }).monitor('entry store: check if can leave section without saving');
+        }).monitor('MediaAssetType service: check if can leave section without saving');
     }
 
     public returnToAssetTypes(params: { force?: boolean } = {}) {
-        this._router.navigate(['content/entries']);
+        this._router.navigate(['settings/metadataTemplates']);
     }
 
 }
