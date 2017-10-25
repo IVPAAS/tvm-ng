@@ -59,9 +59,13 @@
         "playback": "Playback",
         "images": "Images"
       },
-      "MediaAssetTypeDetails": {
+      "mediaAssetTypeDetails": {
         "sections": {
           "metadata": "Metadata"
+        },
+        "metadata":{
+          "metadata":"Metadata",
+          "addField":"Add Custom Field"
         },
         "captions": {
           "cancelEdit": "Cancel Edit",

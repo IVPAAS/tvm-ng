@@ -4,35 +4,45 @@ import { MediaAssetTypeFormWidget } from 'applications/settings-metadata-templat
 import { Injectable } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { KalturaClient } from '@kaltura-ng/kaltura-ott-client';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { AppAuthentication } from "app-shared/mc-shell";
+import { AppLocalization } from "@kaltura-ng/kaltura-common";
 
+
+export interface MetadataRow {
+    identifier: string,
+    label: string,
+    fieldType: string,
+    multipleValue: boolean,
+    isProtected: boolean
+}
 
 @Injectable()
 export class AssetTypeMetadataHandler extends MediaAssetTypeFormWidget {
 
-    public metadataForm: FormGroup;
+    private _metadataRows = new BehaviorSubject<{ items: MetadataRow[] }>({ items: [] });
+    public _metadataRows$ = this._metadataRows.asObservable();
 
     constructor(private _kalturaServerClient: KalturaClient,
-        private _formBuilder: FormBuilder) {
+        private _appAuthentication: AppAuthentication,
+        private _appLocalization: AppLocalization) {
+
         super(AssetTypeWidgetKeys.Metadata);
-
-        this._buildForm();
     }
 
-    private _buildForm(): void {
-    }
+    protected _onActivate(firstTimeActivating: boolean) {
+        
+             
+        
+            }
 
-    private _monitorFormChanges() {
+    
 
-    }
-
-    public setDirty() {
+    
+            public setDirty() {
         super._updateWidgetState({
             isDirty: true
         });
-    }
-
-    protected _onActivate(firstTimeActivating: boolean): Observable<{ failed: boolean }> {
-        return null;
     }
 
     private _syncHandlerContent() {

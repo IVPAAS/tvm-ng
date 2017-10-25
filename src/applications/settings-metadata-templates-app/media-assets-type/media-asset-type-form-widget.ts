@@ -1,6 +1,6 @@
 
 import { KalturaMultiRequest } from 'kaltura-ott-typescript-client';
-import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/KalturaMetaListResponse';
+import { KalturaAssetStructListResponse } from 'kaltura-ott-typescript-client/types/KalturaAssetStructListResponse';
 import { Injectable } from '@angular/core';
 import { FormWidget } from '@kaltura-ng/kaltura-ui';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
@@ -8,7 +8,7 @@ import { AreaBlockerMessage, AreaBlockerMessageButton } from '@kaltura-ng/kaltur
 import { AssetTypeFormManager } from './media-asset-type-form-manager';
 
 @Injectable()
-export abstract class MediaAssetTypeFormWidget extends FormWidget<KalturaMetaListResponse, KalturaMultiRequest> {
+export abstract class MediaAssetTypeFormWidget extends FormWidget<KalturaAssetStructListResponse, KalturaMultiRequest> {
     public sectionBlockerMessage: AreaBlockerMessage;
     public showSectionLoader: boolean;
 

@@ -13,12 +13,12 @@ import { OnDataSavingReasons } from '@kaltura-ng/kaltura-ui';
 import { BrowserService } from 'app-shared/mc-shell/providers/browser.service';
 import { MediaAssetsTypesService } from './../media-assets-types/media-assets-types.service';
 import { KalturaClient } from '@kaltura-ng/kaltura-ott-client';
-import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/KalturaMetaListResponse';
+import { KalturaAssetStructListResponse } from 'kaltura-ott-typescript-client/types/KalturaAssetStructListResponse';
+import { KalturaAssetStructFilter } from "kaltura-ott-typescript-client/types/KalturaAssetStructFilter";
+import { AssetStructListAction } from 'kaltura-ott-typescript-client/types/assetstructListAction';
 import { MetaListAction } from 'kaltura-ott-typescript-client/types/MetaListAction';
 import { MetaUpdateAction } from 'kaltura-ott-typescript-client/types/MetaUpdateAction';
 import { KalturaTypesFactory, KalturaMultiRequest } from 'kaltura-ott-typescript-client';
-import { KalturaMetaFilter } from "kaltura-ott-typescript-client/types/KalturaMetaFilter";
-import { KalturaMeta } from "kaltura-ott-typescript-client/types/KalturaMeta";
 
 export enum ActionTypes {
     Loading,
@@ -51,15 +51,15 @@ export class AssetTypeService implements OnDestroy {
     }
 
     private _saveMetaInvoked = false;
-    private _metaListResponse: BehaviorSubject<KalturaMetaListResponse> = new BehaviorSubject<KalturaMetaListResponse>(null);
-    public metaListResponse$ = this._metaListResponse.asObservable();
-    public _mediaTypeId: number;
-    public get mediaTypeId(): number {
-        return this._mediaTypeId;
+    private _assetStruct: BehaviorSubject<KalturaAssetStructListResponse> = new BehaviorSubject<KalturaAssetStructListResponse>(null);
+    public assetStruct = this._assetStruct.asObservable();
+    public _assetStructId: string;
+    public get assetStructId(): string {
+        return this._assetStructId;
     }
 
-    public get metaListResponse(): KalturaMetaListResponse {
-        return this._metaListResponse.getValue();
+    public get assetStructListResponse(): KalturaAssetStructListResponse {
+        return this._assetStruct.getValue();
     }
 
     constructor(private _kalturaServerClient: KalturaClient,
@@ -110,7 +110,7 @@ export class AssetTypeService implements OnDestroy {
         }
 
         this._state.complete();
-        this._metaListResponse.complete();
+        this._assetStruct.complete();
 
         this._browserService.disablePageExitVerification();
 
@@ -145,12 +145,12 @@ export class AssetTypeService implements OnDestroy {
                     // to init them-selves when entering this module directly.
                     setTimeout(() => {
                         const currentMediaTypeId = this._route.snapshot.params.id;
-                        const metaListResponse = this._metaListResponse.getValue();
-                        if (!metaListResponse || (metaListResponse && this._mediaTypeId !== currentMediaTypeId)) {
+                        const metaListResponse = this._assetStruct.getValue();
+                        if (!metaListResponse || (metaListResponse && this._assetStructId !== currentMediaTypeId)) {
                             this._loadMediaAssetType(currentMediaTypeId);
                         }
 
-                        if (!this._mediaTypeId || (this._mediaTypeId !== currentMediaTypeId)) {
+                        if (!this._assetStructId || (this._assetStructId !== currentMediaTypeId)) {
                             this._loadMediaAssetType(currentMediaTypeId);
                         }
                     });
@@ -159,7 +159,7 @@ export class AssetTypeService implements OnDestroy {
             )
     }
 
-    private _transmitSaveRequest(metaList: KalturaMetaListResponse) {
+    private _transmitSaveRequest(metaList: KalturaAssetStructListResponse) {
         this._state.next({ action: ActionTypes.Saving });
 
         // const request = new KalturaMultiRequest(
@@ -221,7 +221,7 @@ export class AssetTypeService implements OnDestroy {
 
         // const newEntry = KalturaTypesFactory.createObject(this.entry);
 
-        // if (newEntry && newEntry instanceof KalturaMetaListResponse) {
+        // if (newEntry && newEntry instanceof KalturaAssetStructListResponse) {
         //     this._transmitSaveRequest(newEntry)
         // } else {
         //     console.error(new Error(`Failed to create a new instance of the entry type '${this.entry ? typeof this.entry : 'n/a'}`));
@@ -230,31 +230,31 @@ export class AssetTypeService implements OnDestroy {
     }
 
     public reloadMediaAssetType(): void {
-        if (this._mediaTypeId) {
-            this._loadMediaAssetType(this._mediaTypeId);
+        if (this._assetStructId) {
+            this._loadMediaAssetType(this._assetStructId);
         }
     }
 
-    private _loadMediaAssetType(mediaAssetTypeId: number): void {
+    private _loadMediaAssetType(assetStructId: string): void {
         if (this._loadMetaSubscription) {
             this._loadMetaSubscription.unsubscribe();
             this._loadMetaSubscription = null;
         }
 
-        this._mediaTypeId = mediaAssetTypeId;
+        this._assetStructId = assetStructId;
         this._metaIsDirty = false;
         this._updatePageExitVerification();
 
         this._state.next({ action: ActionTypes.Loading });
-        this._formManager.onDataLoading(mediaAssetTypeId);
+        this._formManager.onDataLoading(assetStructId);
 
-        this._loadMetaSubscription = this._getMediaAssetType(mediaAssetTypeId)
+        this._loadMetaSubscription = this._getMediaAssetType(assetStructId)
             .cancelOnDestroy(this)
             .subscribe(
             response => {
 
-                this._metaListResponse.next(response);
-                this._mediaTypeId = mediaAssetTypeId;
+                this._assetStruct.next(response);
+                this._assetStructId = assetStructId;
 
                 const dataLoadedResult = this._formManager.onDataLoaded(response);
 
@@ -282,22 +282,26 @@ export class AssetTypeService implements OnDestroy {
         }
     }
 
-    private _getMediaAssetType(mediaAssetTypeId: number): Observable<KalturaMetaListResponse> {
-        if (mediaAssetTypeId) {
-            let filter: KalturaMetaFilter = new KalturaMetaFilter({});
-            filter.assetStructIdEqual = mediaAssetTypeId;
+    private _getMediaAssetType(assetStructId: string): Observable<KalturaAssetStructListResponse> {
+        if (assetStructId) {
 
-            return this._kalturaServerClient.request(
-                new MetaListAction({ filter })
+            let filter: KalturaAssetStructFilter = new KalturaAssetStructFilter({});
+            filter.idIn = assetStructId;
+
+            // build the request
+            return <any>this._kalturaServerClient.request(
+                new AssetStructListAction({
+                    filter
+                })
             ).map(response => {
-                if (response instanceof KalturaMetaListResponse) {
+                if (response instanceof KalturaAssetStructListResponse) {
                     return response;
                 } else {
-                    throw new Error(`invalid type provided, expected KalturaMetaListResponse, got ${typeof response}`);
+                    throw new Error(`invalid type provided, expected KalturaAssetStructListResponse, got ${typeof response}`);
                 }
             });
         } else {
-            return Observable.throw(new Error('missing mediaAssetTypeId'));
+            return Observable.throw(new Error('missing assetStructId'));
         }
     }
 
@@ -318,8 +322,8 @@ export class AssetTypeService implements OnDestroy {
             if (this._metaIsDirty) {
                 this._browserService.confirm(
                     {
-                        header: this._appLocalization.get('applications.content.MediaAssetTypeDetails.captions.cancelEdit'),
-                        message: this._appLocalization.get('applications.content.MediaAssetTypeDetails.captions.discard'),
+                        header: this._appLocalization.get('applications.settings.MediaAssetTypeDetails.captions.cancelEdit'),
+                        message: this._appLocalization.get('applications.settings.MediaAssetTypeDetails.captions.discard'),
                         accept: () => {
                             this._metaIsDirty = false;
                             observer.next({ allowed: true });

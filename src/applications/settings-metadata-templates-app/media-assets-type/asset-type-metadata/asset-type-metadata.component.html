@@ -1,3 +1,10 @@
-<p>
-  asset-type-metadata works!
-</p>
+<k-area-blocker [showLoader]="_handler.showSectionLoader" [message]="_handler.sectionBlockerMessage">
+  <div class="kMetadata" #metadata>
+    <p class="kTitle">{{'applications.settings.mediaAssetTypeDetails.metadata.metadata' | translate}}</p>
+    <p><button pButton class="kButtonDefault" label="{{'applications.settings.mediaAssetTypeDetails.metadata.addField' | translate}}"></button></p>
+    <div class="kTable">
+        <!-- <p-dataTable [value]="(_handler._thumbnails$ | async)?.items" scrollable="true" scrollHeight="100%" [rowStyleClass]="_handler._getRowStyle"  sortField="width" [sortOrder]="-1">
+        </p-dataTable> -->
+    </div>
+  </div>
+</k-area-blocker>

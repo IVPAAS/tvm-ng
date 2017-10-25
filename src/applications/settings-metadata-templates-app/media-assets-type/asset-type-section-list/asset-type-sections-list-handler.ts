@@ -6,7 +6,7 @@ import { AssetTypeSectionsList } from './asset-type-sections-list';
 import { AssetTypeWidgetKeys } from '../media-asset-type-widget-keys';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { MediaAssetTypeFormWidget } from '../media-asset-type-form-widget';
-import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/KalturaMetaListResponse';
+import { KalturaAssetStructListResponse } from 'kaltura-ott-typescript-client/types/KalturaAssetStructListResponse';
 
 
 export interface SectionWidgetItem {
@@ -35,7 +35,7 @@ export class AssetTypeSectionsListHandler extends MediaAssetTypeFormWidget {
         }
     }
 
-    protected _onDataLoaded(data: KalturaMetaListResponse): void {
+    protected _onDataLoaded(data: KalturaAssetStructListResponse): void {
         this._reloadSections(data);
     }
 
@@ -74,7 +74,7 @@ export class AssetTypeSectionsListHandler extends MediaAssetTypeFormWidget {
 
     }
 
-    private _reloadSections(metaList: KalturaMetaListResponse): void {
+    private _reloadSections(metaList: KalturaAssetStructListResponse): void {
         const sections = [];
         const formWidgetsState = this._manager.widgetsState;
 
@@ -100,7 +100,7 @@ export class AssetTypeSectionsListHandler extends MediaAssetTypeFormWidget {
         this._sectionsBehaviourSubject.next(sections);
     }
 
-    private _isSectionEnabled(sectionKey: string, metaList: KalturaMetaListResponse): boolean {
+    private _isSectionEnabled(sectionKey: string, metaList: KalturaAssetStructListResponse): boolean {
         // const mediaType = this.data.mediaType;
         // const externalMedia = this.data instanceof KalturaExternalMediaEntry;
         // switch (sectionKey) {

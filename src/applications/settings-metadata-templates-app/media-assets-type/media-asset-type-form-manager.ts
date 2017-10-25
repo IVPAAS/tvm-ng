@@ -1,12 +1,12 @@
 import { KalturaMultiRequest } from 'kaltura-ott-typescript-client';
-import { KalturaMetaListResponse } from 'kaltura-ott-typescript-client/types/KalturaMetaListResponse';
+import { KalturaAssetStructListResponse } from 'kaltura-ott-typescript-client/types/KalturaAssetStructListResponse';
 import { Injectable } from '@angular/core';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { FormManager } from '@kaltura-ng/kaltura-ui'
 import { AssetTypeService } from './media-asset-type.service';
 
 @Injectable()
-export class AssetTypeFormManager extends FormManager<KalturaMetaListResponse, KalturaMultiRequest> {
+export class AssetTypeFormManager extends FormManager<KalturaAssetStructListResponse, KalturaMultiRequest> {
     
     private _mediaAssetTypeService: AssetTypeService;
 
