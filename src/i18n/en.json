@@ -59,13 +59,21 @@
         "playback": "Playback",
         "images": "Images"
       },
+      "errors": {
+        "loadError": "An error occurred while loading data",
+        "retry": "Retry",
+        "saveError": "An error occurred while saving."
+      },
+      "messages": {
+        "backToMediaAssetsTypes": "Back To Metadata Templates"
+      },
       "mediaAssetTypeDetails": {
         "sections": {
           "metadata": "Metadata"
         },
-        "metadata":{
-          "metadata":"Metadata",
-          "addField":"Add Custom Field"
+        "metadata": {
+          "metadata": "Metadata",
+          "addField": "Add Custom Field"
         },
         "captions": {
           "cancelEdit": "Cancel Edit",
