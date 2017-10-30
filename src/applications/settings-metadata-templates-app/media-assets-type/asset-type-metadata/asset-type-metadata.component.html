@@ -2,9 +2,27 @@
   <div class="kMetadata" #metadata>
     <p class="kTitle">{{'applications.settings.mediaAssetTypeDetails.metadata.metadata' | translate}}</p>
     <p><button pButton class="kButtonDefault" label="{{'applications.settings.mediaAssetTypeDetails.metadata.addField' | translate}}"></button></p>
+    <span class="kSelectedMediaTypesNum" *ngIf="(_handler._metadataRows$ | async)?.items">
+        {{(_handler._metadataRows$ | async)?.items.length}} {{'applications.settings.metadataTemplates.items' | translate}}
+</span>
     <div class="kTable">
-        <!-- <p-dataTable [value]="(_handler._thumbnails$ | async)?.items" scrollable="true" scrollHeight="100%" [rowStyleClass]="_handler._getRowStyle"  sortField="width" [sortOrder]="-1">
-        </p-dataTable> -->
+        <p-dataTable [value]="(_handler._metadataRows$ | async)?.items" scrollable="true" scrollHeight="100%" [rowStyleClass]="_handler._getRowStyle"  sortField="width" [sortOrder]="-1">
+            <p-column field="name" header="Name">
+                <ng-template let-col let-meta="rowData" pTemplate="body">
+                  <span>{{meta[col.field]}}</span>
+                </ng-template>
+              </p-column>
+              <p-column field="systemName" header="identifier">
+                  <ng-template let-col let-meta="rowData" pTemplate="body">
+                    <span>{{meta[col.field]}}</span>
+                  </ng-template>
+                </p-column>
+                <p-column field="fieldType" header="Field Type">
+                    <ng-template let-col let-meta="rowData" pTemplate="body">
+                      <span>{{meta[col.field]}}</span>
+                    </ng-template>
+                  </p-column>
+        </p-dataTable>
     </div>
   </div>
 </k-area-blocker>

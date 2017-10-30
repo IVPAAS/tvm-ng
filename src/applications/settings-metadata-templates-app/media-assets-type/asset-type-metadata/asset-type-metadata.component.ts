@@ -15,7 +15,9 @@ export class AssetTypeMetadataComponent implements AfterViewInit, OnInit, OnDest
 
   public _handler: AssetTypeMetadataHandler;
 
-  constructor(private _assetTypeFormManager: AssetTypeFormManager, private _appLocalization: AppLocalization, private _browserService: BrowserService,
+  constructor(private _assetTypeFormManager: AssetTypeFormManager, 
+    private _appLocalization: AppLocalization,
+     private _browserService: BrowserService,
     private _appAuthentication: AppAuthentication) { }
 
   ngOnInit() {
